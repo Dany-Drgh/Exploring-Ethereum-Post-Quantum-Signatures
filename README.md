@@ -7,7 +7,7 @@ This project aims to explore the integration of post-quantum signatures in Ether
 ## Repository Structure
 
 - `src/` contains the source code of the project.
-- `report/` contains the report of the project.
+- `report/` contains the report files of the project. (The latest pdf version of the report being available at the root of this repository)
 <!-- - `slides/` contains the presentation of the project. -->
 
 ---
