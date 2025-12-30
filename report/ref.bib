@@ -1,0 +1,638 @@
+@techreport{lamport,
+  author    = {Leslie Lamport},
+  title     = {Constructing Digital Signatures from a One-Way Function},
+  link      = {https://www.microsoft.com/en-us/research/uploads/prod/2016/12/Constructing-Digital-Signatures-from-a-One-Way-Function.pdf},
+  institution = {SRI International},
+  year      = {1979},
+  month     = {October},
+  number    = {CSL-98},
+}
+
+@inproceedings{ajtai1996,
+  author    = {Miklós Ajtai},
+  title     = {Generating Hard Instances of Lattice Problems},
+  booktitle = {Proceedings of the Twenty-Eighth Annual ACM Symposium on Theory of Computing (STOC '96)},
+  pages     = {99--108},
+  publisher = {ACM},
+  year      = {1996},
+  doi       = {10.1145/237814.237838}
+}
+
+@inproceedings{regev2005,
+author = {Regev, Oded},
+title = {On lattices, learning with errors, random linear codes, and cryptography},
+year = {2005},
+isbn = {1581139608},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/1060590.1060603},
+doi = {10.1145/1060590.1060603},
+abstract = {Our main result is a reduction from worst-case lattice problems such as SVP and SIVP to a certain learning problem. This learning problem is a natural extension of the 'learning from parity with error' problem to higher moduli. It can also be viewed as the problem of decoding from a random linear code. This, we believe, gives a strong indication that these problems are hard. Our reduction, however, is quantum. Hence, an efficient solution to the learning problem implies a quantum algorithm for SVP and SIVP. A main open question is whether this reduction can be made classical.Using the main result, we obtain a public-key cryptosystem whose hardness is based on the worst-case quantum hardness of SVP and SIVP. Previous lattice-based public-key cryptosystems such as the one by Ajtai and Dwork were only based on unique-SVP, a special case of SVP. The new cryptosystem is much more efficient than previous cryptosystems: the public key is of size \~{O}(n2) and encrypting a message increases its size by \~{O}(n)(in previous cryptosystems these values are \~{O}(n4) and \~{O}(n2), respectively). In fact, under the assumption that all parties share a random bit string of length \~{O}(n2), the size of the public key can be reduced to \~{O}(n).},
+booktitle = {Proceedings of the Thirty-Seventh Annual ACM Symposium on Theory of Computing},
+pages = {84–93},
+numpages = {10},
+keywords = {computational learning theory, cryptography, lattices, public key encryption, quantum computing, statistical queries},
+location = {Baltimore, MD, USA},
+series = {STOC '05}
+}
+
+@article{srivastava2023,
+  title={An Overview of Hash-Based Signatures},
+  author={Srivastava, Vikas and Kumar, Sandeep and Saxena, Ashutosh},
+  journal={Cryptology ePrint Archive},
+  year={2023},
+  note={\url{https://eprint.iacr.org/2023/411}}
+}
+
+@article{roh2018,
+    author = "Roh, Dongyoung and Jung, Sangim and Kwon, Daesung",
+    doi = "10.1155/2018/1452457",
+    title = "Winternitz Signature Scheme Using Nonadjacent Forms",
+    journal = "Security and Communication Networks",
+    year = "2018"
+}
+
+@article{bernstein2019,
+    author = "Bernstein, Daniel J. and Hülsing, Andreas and Kölbl, Stefan and Niederhagen, Ruben and Rijneveld, Joost and Schwabe, Peter",
+    doi = "10.1145/3319535.3363229",
+    title = "The SPHINCS
+            <sup>+</Sup>
+            Signature Framework",
+    year = "2019"
+}
+
+@article{kiktenko2019,
+    author = "Kiktenko, E. O.",
+    doi = "10.48550/arxiv.1904.06525",
+    title = "SPHINCS$^+$ Post-Quantum Digital Signature Scheme With Streebog Hash Function",
+    year = "2019"
+}
+
+@misc{NISTSigReq2022,
+  author = "{National Institute of Standards and Technology}",
+  title = "{Request for Additional Post-Quantum Digital Signature Schemes}",
+  year = {2022},
+  url = {https://csrc.nist.gov/news/2022/request-additional-pqc-digital-signature-schemes},
+  note = {Accessed: 2025-03-02}
+}
+
+
+@techreport{NISTPQC2022,
+  author    = {Gorjan Alagic and Daniel Apon and David Cooper and Quynh Dang and John Kelsey and Carl Miller and Rene Peralta and Ray Perlner and Angela Robinson and Daniel Smith-Tone},
+  title     = {{Status Report on the Third Round of the NIST Post-Quantum Cryptography Standardization Process}},
+  institution = {National Institute of Standards and Technology},
+  year      = {2022},
+  number    = {NIST IR 8413},
+  url       = {https://nvlpubs.nist.gov/nistpubs/ir/2022/NIST.IR.8413.pdf},
+  doi       = {10.6028/NIST.IR.8413}
+}
+
+@techreport{NIST2024,
+  author       = {Gorjan Alagic and Maxime Bros and Pierre Ciadoux and David Cooper and Quynh Dang and Thinh Dang and John Kelsey and Jacob Lichtinger and Yi-Kai Liu and Carl Miller and Dustin Moody and Rene Peralta and Ray Perlner and Angela Robinson and Hamilton Silberg and Daniel Smith-Tone and Noah Waller},
+  title        = {{Status Report on the First Round of the Additional Digital Signature Schemes for the NIST Post-Quantum Cryptography Standardization Process}},
+  institution  = {National Institute of Standards and Technology},
+  type         = {NIST Interagency/Internal Report (NISTIR)},
+  number       = {8528},
+  year         = {2024},
+  month        = {October},
+  doi          = {10.6028/NIST.IR.8528},
+  url          = {https://nvlpubs.nist.gov/nistpubs/ir/2024/NIST.IR.8528.pdf}
+}
+
+
+@inproceedings{Ducas2018,
+  author    = {L{\'{e}}o Ducas and Vadim Lyubashevsky and Thomas Prest},
+  title     = {{CRYSTALS-DILITHIUM: A Lattice-Based Digital Signature Scheme}},
+  booktitle = {Post-Quantum Cryptography - 9th International Conference, PQCrypto 2018},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {10786},
+  pages     = {238--268},
+  publisher = {Springer},
+  year      = {2018},
+  doi       = {10.1007/978-3-319-79063-3_11},
+  url       = {https://pq-crystals.org/dilithium/data/dilithium-specification-round3-20210330.pdf}
+}
+
+@techreport{Fouque2018,
+  author    = {Pierre-Alain Fouque and Jeffrey Hoffstein and Paul Kirchner and Vadim Lyubashevsky and Thomas Pornin and Thomas Prest and Thomas Ricosset and Gregor Seiler and William Whyte and Zhenfei Zhang},
+  title     = {{Falcon: Fast-Fourier Lattice-based Compact Signatures over NTRU}},
+  year      = {2018},
+  url       = {https://falcon-sign.info/falcon.pdf}
+}
+
+
+@article{shor1994,
+  author    = {Peter W. Shor},
+  title     = {Algorithms for quantum computation: discrete logarithms and factoring},
+  journal   = {Proceedings of the 35th Annual Symposium on Foundations of Computer Science (FOCS)},
+  year      = {1994},
+  pages     = {124--134},
+  publisher = {IEEE Computer Society},
+  doi       = {10.1109/SFCS.1994.365700}
+}
+
+@inproceedings{DeFeo2020,
+  author    = {Luca De Feo and
+               David Kohel and
+               Antonin Leroux and
+               Christophe Petit and
+               Benjamin Wesolowski},
+  title     = {{SQISign}: Compact Post-Quantum Signatures from Quaternions and Isogenies},
+  booktitle = {Advances in Cryptology -- ASIACRYPT 2020},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {12491},
+  pages     = {64--93},
+  publisher = {Springer},
+  year      = {2020},
+  url       = {https://doi.org/10.1007/978-3-030-64837-4_3},
+  doi       = {10.1007/978-3-030-64837-4_3}
+}
+
+@misc{Moody2023,
+  author    = {Dustin Moody},
+  title     = {NIST Standardization of Additional Signature Schemes},
+  howpublished = {Presentation at the PQC Conference, Amsterdam},
+  year      = {2023},
+  url       = {https://pkic.org/events/2023/pqc-conference-amsterdam-nl/pkic-pqcc_dustin-moody_nist_nist-standardization-of-additional-signature-schemes.pdf},
+  note      = {Accessed: March 2025}
+}
+
+@article{Arute2019,
+  author       = {Frank Arute and Kunal Arya and Ryan Babbush and others},
+  title        = {Quantum supremacy using a programmable superconducting processor},
+  journal      = {Nature},
+  volume       = {574},
+  pages        = {505--510},
+  year         = {2019},
+  doi          = {10.1038/s41586-019-1666-5},
+  url          = {https://www.nature.com/articles/s41586-019-1666-5}
+}
+
+@misc{IBMQuantum2023,
+  author       = {IBM Quantum},
+  title        = {IBM Quantum Computing},
+  howpublished = {\url{https://research.ibm.com/quantum-computing}},
+  year         = {2023},
+  note         = {Accessed: 2025-03-02}
+}
+
+@misc{nist_sha256,
+  author       = {National Institute of Standards and Technology (NIST)},
+  title        = {FIPS PUB 180-4: Secure Hash Standard (SHS)},
+  year         = {2015},
+  url          = {https://csrc.nist.gov/publications/detail/fips/180/4/final},
+  institution  = {National Institute of Standards and Technology},
+  number       = {FIPS PUB 180-4}
+}
+
+
+@techreport{keccak_sha3,
+  author       = {Guido Bertoni and Joan Daemen and Michaël Peeters and Gilles Van Assche},
+  title        = {The KECCAK Secure Hash Algorithm - SHA-3 Submission},
+  institution  = {NIST SHA-3 Competition},
+  year         = {2011},
+  url          = {https://keccak.team/files/Keccak-submission-3.pdf}
+}
+
+
+@misc{EthereumEthash,
+  author       = {Ethereum Foundation},
+  title        = {Ethash Mining Algorithm},
+  year         = {2025},
+  url          = {https://ethereum.org/en/developers/docs/consensus-mechanisms/pow/mining/mining-algorithms/ethash/},
+  note         = {Accessed: 2025-03-16}
+}
+
+@article{ecdsa2001,
+  title={The elliptic curve digital signature algorithm (ECDSA)},
+  author={Johnson, Don and Menezes, Alfred and Vanstone, Scott},
+  journal={International Journal of Information Security},
+  volume={1},
+  number={1},
+  pages={36--63},
+  year={2001},
+  publisher={Springer},
+  doi={10.1007/s102070100002}
+}
+
+@misc{nist_dsa,
+  author       = {National Institute of Standards and Technology (NIST)},
+  title        = {FIPS PUB 186-4: Digital Signature Standard (DSS)},
+  year         = {2013},
+  url          = {https://csrc.nist.gov/publications/detail/fips/186/4/final},
+  institution  = {U.S. Department of Commerce}
+}
+
+@article{ECC_1,
+  title={Use of elliptic curves in cryptography},
+  author={Miller, Victor S},
+  journal={Advances in Cryptology—CRYPTO’85 Proceedings},
+  pages={417--426},
+  year={1986},
+  publisher={Springer}
+}
+
+@article{ECC_2,
+  title={Elliptic curve cryptosystems},
+  author={Koblitz, Neal},
+  journal={Mathematics of computation},
+  volume={48},
+  number={177},
+  pages={203--209},
+  year={1987},
+  publisher={JSTOR}
+}
+
+
+@inproceedings{merkle1988,
+  author    = {Ralph C. Merkle},
+  title     = {A Digital Signature Based on a Conventional Encryption Function},
+  booktitle = {Advances in Cryptology - CRYPTO '87},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {293},
+  pages     = {369--378},
+  year      = {1988},
+  publisher = {Springer},
+  doi       = {10.1007/3-540-48184-2_32}
+}
+
+@misc{king2012,
+  author       = {Sunny King and Scott Nadal},
+  title        = {PPCoin: Peer-to-Peer Crypto-Currency with Proof-of-Stake},
+  year         = {2012},
+  url          = {https://peercoin.net/assets/paper/peercoin-paper.pdf},
+  note         = {White Paper}
+}
+
+@inproceedings{bernstein2015hash,
+  title={Hash-Based Signatures},
+  author={Bernstein, Daniel J and Hülsing, Andreas and Kelsey, John and Lange, Tanja and Niederhagen, Ruben and Papachristodoulou, Zooko Wilcox-O’Hearn and Schneider, Michael and Schwabe, Peter and Wilcox-O’Hearn, Zooko},
+  booktitle={Post-Quantum Cryptography},
+  pages={109--128},
+  year={2015},
+  publisher={Springer},
+  doi={10.1007/978-3-319-22174-8_6},
+  url={https://eprint.iacr.org/2015/705},
+  abstract={We survey the state of the art in hash-based signatures, which are based solely on the existence of cryptographic hash functions and are widely considered to be resistant to quantum attacks.}
+}
+
+@inproceedings{grover1996,
+  title={A fast quantum mechanical algorithm for database search},
+  author={Grover, Lov K},
+  booktitle={Proceedings of the twenty-eighth annual ACM symposium on Theory of computing},
+  pages={212--219},
+  year={1996},
+  organization={ACM},
+  doi={10.1145/237814.237866}
+}
+
+
+@misc{nist2016call,
+  author = {{National Institute of Standards and Technology}},
+  title = {NIST Asks the Public to Help Future-Proof Cryptography},
+  year = {2016},
+  url = {https://www.nist.gov/news-events/news/2016/02/nist-asks-public-help-future-cryptography},
+  note = {Accessed: 2025-04-04}
+}
+
+@techreport{FIPS204,
+  title     = {FIPS 204: Module-Lattice-Based Digital Signature Standard (ML-DSA)},
+  institution = {National Institute of Standards and Technology},
+  year      = {2024},
+  url       = {https://csrc.nist.gov/pubs/fips/204/final},
+  
+}
+
+@techreport{FIPS205,
+  title     = {FIPS 205: Stateless Hash-Based Digital Signature Standard (SLH-DSA)},
+  institution = {National Institute of Standards and Technology},
+  year      = {2024},
+  url       = {https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.205.pdf},
+  
+}
+
+@techreport{CROSSspec2023,
+  title     = {CROSS: Code-based ROund Signature Scheme – Specification},
+  author    = {Marco Baldi and Paolo Santini and Danilo Taufer and Francesco Chiaraluce},
+  institution = {National Institute of Standards and Technology (NIST)},
+  year      = {2023},
+  url       = {https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/CROSS-spec-web.pdf},
+  note      = {Submitted to NIST for the Additional Post-Quantum Signature Schemes Call}
+}
+
+@techreport{LESSspec2023,
+  title     = {LESS: Lattice- and Error-correcting code-based Signature Scheme – Specification},
+  author    = {Carlos Aguilar-Melchor and Nicolas Aragon and Philippe Gaborit and Gilles Zémor},
+  institution = {National Institute of Standards and Technology (NIST)},
+  year      = {2023},
+  url       = {https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/spec-files/less-spec-web.pdf},
+  note      = {Submitted to NIST for the Additional Post-Quantum Signature Schemes Call}
+}
+
+@inproceedings{codebased,
+  author    = {Carlos Aguilar-Melchor and Nicolas Aragon and Philippe Gaborit and Gilles Z{\'e}mor},
+  title     = {Efficient Cryptographic Signatures in the Post-Quantum Code-Based Setting},
+  booktitle = {Post-Quantum Cryptography – PQCrypto 2017},
+  editor    = {Tanja Lange and Takashi Takagi},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {10346},
+  pages     = {43--58},
+  publisher = {Springer},
+  year      = {2017},
+  doi       = {10.1007/978-3-319-59879-6_3},
+  url       = {https://link.springer.com/chapter/10.1007/978-3-319-59879-6_3}
+}
+
+
+@article{aggarwal2018,
+  author    = {Divesh Aggarwal and Gavin K. Brennen and Troy Lee and Miklos Santha and Marco Tomamichel},
+  title     = {Quantum Attacks on Bitcoin, and How to Protect Against Them},
+  journal   = {Ledger},
+  volume    = {3},
+  year      = {2018},
+  pages     = {68--90},
+  doi       = {10.5195/ledger.2018.127},
+  url       = {https://doi.org/10.5195/ledger.2018.127}
+}
+
+@article{mosca2018,
+  author    = {Michele Mosca},
+  title     = {Cybersecurity in an Era with Quantum Computers: Will We Be Ready?},
+  journal   = {IEEE Security \& Privacy},
+  volume    = {16},
+  number    = {5},
+  pages     = {38--41},
+  year      = {2018},
+  publisher = {IEEE},
+  doi       = {10.1109/MSP.2018.3761723},
+  url       = {https://doi.org/10.1109/MSP.2018.3761723}
+}
+
+@article{nakamoto2008bitcoin,
+  title={Bitcoin: A Peer-to-Peer Electronic Cash System},
+  author={Nakamoto, Satoshi},
+  journal={Decentralized Business Review},
+  volume={21260},
+  year={2008},
+  url={https://bitcoin.org/bitcoin.pdf}
+}
+
+@misc{hqc,
+  author       = {Philippe Gaborit and Carlos Aguilar Melchor and Nicolas Aragon and Slim Bettaieb and Loïc Bidoux and Olivier Blazy and Jean-Christophe Deneuville and Edoardo Persichetti and Gilles Zémor and Jurjen Bos and Arnaud Dion and Jerome Lacan and Jean-Marc Robert and Pascal Veron and Paulo Barreto and Shay Gueron and Tim Guneysu and Rafael Misoczki and Nicolas Sendrier and Jean-Pierre Tillich and Valentin Vasseur and Santosh Ghosh and Jan Richter-Brokmann},
+  title        = {HQC},
+  howpublished = {\url{https://pqc-hqc.org/}},
+  note         = {Accessed: 2025-04-09}
+}
+
+
+@article{peikert2016lattice,
+  title={A decade of lattice cryptography},
+  author={Peikert, Chris},
+  journal={Foundations and Trends® in Theoretical Computer Science},
+  volume={10},
+  number={4},
+  pages={283--424},
+  year={2016},
+  publisher={Now Publishers}
+}
+
+@techreport{dilithium-spec-2021,
+  title = {CRYSTALS-DILITHIUM: Algorithm Specifications and Supporting Documentation (Round 3)},
+  author = {Ducas, Léo and Kiltz, Eike and Lepoint, Tancrède and Lyubashevsky, Vadim and Schwabe, Peter and Seiler, Gregor and Stehlé, Damien},
+  year = {2021},
+  institution = {National Institute of Standards and Technology (NIST)},
+  url = {https://pq-crystals.org/dilithium/data/dilithium-specification-round3.pdf},
+  note = {Round 3 Submission to the NIST Post-Quantum Cryptography Standardization Project}
+}
+
+
+@inproceedings{ntru1998,
+  title={NTRU: A ring-based public key cryptosystem},
+  author={Hoffstein, Jeffrey and Pipher, Jill and Silverman, Joseph H},
+  booktitle={International Algorithmic Number Theory Symposium},
+  pages={267--288},
+  year={1998},
+  organization={Springer}
+}
+
+@article{fft1965,
+  title={An algorithm for the machine calculation of complex Fourier series},
+  author={Cooley, James W and Tukey, John W},
+  journal={Mathematics of computation},
+  volume={19},
+  number={90},
+  pages={297--301},
+  year={1965},
+  publisher={JSTOR}
+}
+
+@inproceedings{wotsplus2011,
+  author    = {Andreas H{\"u}lsing},
+  title     = {WOTS+ - Shorter Signatures for Hash-based Signature Schemes},
+  booktitle = {Progress in Cryptology -- AFRICACRYPT 2013},
+  pages     = {173--188},
+  year      = {2013},
+  publisher = {Springer},
+  doi       = {10.1007/978-3-642-38553-7_10},
+  url       = {https://eprint.iacr.org/2011/191}
+}
+@inproceedings{Buchmann2011XMSSWOTSPLUS,
+  author    = {Johannes Buchmann and Erik Dahmen and Andreas H{\"u}lsing},
+  title     = {{XMSS} - A Practical Forward Secure Signature Scheme Based on Minimal Security Assumptions},
+  booktitle = {Post-Quantum Cryptography (PQCrypto 2011)},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {7071},
+  pages     = {117--129},
+  year      = {2011},
+  publisher = {Springer},
+  doi       = {10.1007/978-3-642-25405-5_8},
+  url       = {https://doi.org/10.1007/978-3-642-25405-5_8}
+}
+
+
+@inproceedings{Ling2010,
+  title = {Lattice-Based Group Signatures: Achieving Full Anonymity in the Standard Model},
+  author = {San Ling and Khoa Nguyen and Huaxiong Wang and Zhenfu Xu},
+  booktitle = {Advances in Cryptology – ASIACRYPT 2010},
+  pages = {345–362},
+  year = {2010},
+  publisher = {Springer},
+  doi = {10.1007/978-3-642-17373-8_20}
+}
+
+
+@article{Liu2019,
+  title={Lattice-Based Group and Ring Signature Schemes: A Short Review},
+  author={Jie Liu and Xinyu Wei and Xinyi Zhang and Rongxing Yu},
+  journal={IEEE Transactions on Dependable and Secure Computing},
+  year={2019},
+  volume={18},
+  number={5},
+  pages={2060–2077},
+  doi={10.1109/TDSC.2019.2897163}
+  }
+
+  @inproceedings{Goldwasser1985ZK,
+  title     = {The Knowledge Complexity of Interactive Proof Systems},
+  author    = {Shafi Goldwasser and Silvio Micali and Charles Rackoff},
+  booktitle = {Proceedings of the Seventeenth Annual ACM Symposium on Theory of Computing (STOC)},
+  year      = {1985},
+  pages     = {291--304},
+  doi       = {10.1145/22145.22178}
+}
+
+@article{Meiklejohn2016Fistful,
+  title={A Fistful of Bitcoins: Characterizing Payments Among Men with No Names},
+  author={Sarah Meiklejohn and Marjori Pomarole and Grant Jordan and Kirill Levchenko and Damon McCoy and Geoffrey M. Voelker and Stefan Savage},
+  journal={Communications of the ACM},
+  volume={59},
+  number={4},
+  pages={86--93},
+  year={2016},
+  publisher={ACM},
+  doi={10.1145/2896384}
+}
+
+@inproceedings{Androulaki2013PrivacyBitcoin,
+  title={Evaluating User Privacy in Bitcoin},
+  author={Elli Androulaki and Ghassan O. Karame and Marc Roeschlin and Tobias Scherer and Srdjan Capkun},
+  booktitle={Financial Cryptography and Data Security (FC)},
+  pages={34--51},
+  year={2013},
+  publisher={Springer},
+  doi={10.1007/978-3-642-39884-1_4}
+}
+
+
+@article{BenSasson2018Stark,
+  title={Scalable, Transparent, and Post-Quantum Secure Computational Integrity},
+  author={Eli Ben-Sasson and Iddo Bentov and Yinon Horesh and Michael Riabzev},
+  journal={Cryptology ePrint Archive},
+  year={2018},
+  number={046},
+  url={https://eprint.iacr.org/2018/046}
+}
+
+@misc{EthereumZKRollups,
+  title={zk-Rollups},
+  author={{Ethereum Foundation}},
+  year={2023},
+  howpublished={\url{https://ethereum.org/en/developers/docs/scaling/zk-rollups/}},
+  note={Accessed 2025-06-04}
+}
+
+@inproceedings{Parno2013Pinocchio,
+  title     = {Pinocchio: Nearly Practical Verifiable Computation},
+  author    = {Bryan Parno and Jon Howell and Craig Gentry and Mariana Raykova},
+  booktitle = {2013 IEEE Symposium on Security and Privacy},
+  pages     = {238--252},
+  year      = {2013},
+  publisher = {IEEE},
+  doi       = {10.1109/SP.2013.47}
+}
+
+@inproceedings{Chiesa2023PostQuantumSNARKs,
+  title     = {Post-Quantum SNARKs from Lattices},
+  author    = {Chiesa, Alessandro and Mishra, Pratyush and Spooner, Nicholas and Xie, Tiancheng},
+  booktitle = {Advances in Cryptology – EUROCRYPT 2023},
+  year      = {2023},
+  publisher = {Springer},
+  pages     = {113--143},
+  doi       = {10.1007/978-3-031-30589-4_5}
+}
+
+@misc{bitcoinDevDocs,
+  author = {{Bitcoin Developers}},
+  title = {Bitcoin Developer Guide: Block Chain},
+  howpublished = {\url{https://developer.bitcoin.org/devguide/block_chain.html}},
+  note = {Accessed: 2024-06-12}
+}
+
+
+@misc{NIST2024selected,
+  author       = {{National Institute of Standards and Technology}},
+  title        = {Post-Quantum Cryptography: Selected Algorithms},
+  year         = {2024},
+  howpublished = {\url{https://csrc.nist.gov/Projects/post-quantum-cryptography/selected-algorithms}},
+  note         = {Accessed: 2025-06-12}
+}
+
+@misc{benhamouda2022qsnark,
+  author       = {Fabrice Benhamouda and Lucas K. G. Helms and Rachel Player and Mark Simkin},
+  title        = {{Post-Quantum Zero-Knowledge and SNARKs from Lattices}},
+  year         = {2022},
+  eprint       = {2022/1055},
+  archivePrefix= {IACR},
+  primaryClass = {cs.CR},
+  note         = {Available at \url{https://eprint.iacr.org/2022/1055}}
+}
+
+@misc{albrecht2021ligerolwe,
+  author       = {Martin R. Albrecht and Benoît Libert and Thomas Peters},
+  title        = {{LigeroLWE: Digital Signatures from Sublinear Lattice-Based Zero-Knowledge Proofs}},
+  year         = {2021},
+  eprint       = {2021/540},
+  archivePrefix= {IACR},
+  primaryClass = {cs.CR},
+  note         = {Available at \url{https://eprint.iacr.org/2021/540}}
+}
+
+@misc{lyubashevsky2023latticesnark,
+  author       = {Vadim Lyubashevsky and Antoine Rondepierre and Gregory Neven},
+  title        = {Lattice-Based SNARKs and Their Application to Verifiable Machine Learning},
+  year         = {2023},
+  eprint       = {2023/309},
+  archivePrefix= {IACR},
+  primaryClass = {cs.CR},
+  note         = {Available at \url{https://eprint.iacr.org/2023/309}}
+}
+
+@misc{chase2022grothlattice,
+  author       = {Melissa Chase and Eike Kiltz and Julian Loss},
+  title        = {{Lattice-Based Succinct Non-Interactive Arguments via Delegation from Group to Ring}},
+  year         = {2022},
+  eprint       = {2022/310},
+  archivePrefix= {IACR},
+  primaryClass = {cs.CR},
+  note         = {Available at \url{https://eprint.iacr.org/2022/310}}
+}
+
+@misc{eip197,
+  author       = {Vitalik Buterin},
+  title        = {EIP-197: Addition of ModExp precompile},
+  howpublished = {\url{https://eips.ethereum.org/EIPS/eip-197}},
+  year         = {2017},
+  note         = {Accessed: 2025-06-17}
+}
+@misc{eip2537,
+  author       = {Alex Vlasov},
+  title        = {EIP-2537: Precompile for BLS12-381 curve operations},
+  howpublished = {\url{https://eips.ethereum.org/EIPS/eip-2537}},
+  year         = {2020},
+  note         = {Accessed: 2025-06-17}
+}
+
+@misc{ewasm2019,
+  author       = {eWASM Team},
+  title        = {eWASM Design Overview},
+  year         = {2019},
+  howpublished = {\url{https://github.com/ewasm/design}},
+  note         = {Accessed: 2025-06-17}
+}
+
+@misc{eip609,
+  author       = {Nick Johnson},
+  title        = {EIP-609: Byzantium Hard Fork Meta},
+  year         = {2017},
+  howpublished = {\url{https://eips.ethereum.org/EIPS/eip-609}},
+  note         = {Accessed: 2025-06-17}
+}
+
+@misc{eip3238,
+  author       = {Trent Van Epps and Tim Beiko},
+  title        = {EIP-3238: London Hard Fork Meta},
+  year         = {2021},
+  howpublished = {\url{https://eips.ethereum.org/EIPS/eip-3238}},
+  note         = {Accessed: 2025-06-17}
+}
+

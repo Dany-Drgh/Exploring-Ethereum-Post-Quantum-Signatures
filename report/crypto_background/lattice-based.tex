@@ -1,0 +1,23 @@
+\subsubsection{Lattices}
+\textit{This section rather than giving a full explanation of lattices and their properties, aims only at providing a general overview of the mathematical background of lattices and their properties as some of the signature schemes presented in this thesis are based on lattice problems.}\\
+
+
+Lattices \cite{peikert2016lattice} are a mathematical structure used by some cryptographic algorithms, for their particular properties. A lattice in $\mathbb{R}^n$ is a discrete set of points formed by linear combinations of a finite set of basis vectors. Formally, a lattice $\mathcal{L}$ in $\mathbb{R}^n$ can be defined as:
+\begin{equation}
+\mathcal{L} = \left\{ \sum_{i=1}^{n} z_i \cdot b_i \mid z_i \in \mathbb{Z} \right\}
+\end{equation}
+where $b_i$ are the basis vectors of the lattice and $z_i$ are integers. The dimension of a lattice is defined as the number of basis vectors, and the volume of a lattice is defined as the volume of the parallelepiped spanned by its basis vectors.
+
+Some particular bases are considered ideal, a "short" and "orthogonal" basis is one where the basis vectors are as short as possible and as orthogonal to each other as possible. Paradoxically, "bad" bases (long and non-orthogonal) are preferred in cryptography, as they can be used to create hard problems that are difficult to solve. The hardness of these problems is what makes lattice-based cryptography secure.
+
+\subsubsection*{Hard Lattice Problems}
+Lattice-based cryptography relies on the hardness of certain mathematical problems related to lattices. The most well-known hard lattice problems include:
+\begin{itemize}
+    \item \textbf{Shortest Vector Problem (SVP)}: Given a lattice, find the shortest non-zero vector in that lattice.
+    \item \textbf{Closest Vector Problem (CVP)}: Given a lattice and a target point, find the closest lattice point to the target.
+    \item \textbf{Learning with Errors (LWE)}: Given a linear function with some noise, recover the secret vector used to generate it.
+    \item \textbf{Short Integer Solution (SIS)}: Given a matrix $A$ and a target vector $t$, find a short solution $x$ to the equation $Ax = t$.
+\end{itemize}
+
+\subsubsection{Lattice Based Cryptography}
+Based on the problems described above, lattice-based cryptography aims at creating secure cryptographic primitives, such as encryption schemes, digital signatures, and key exchange protocols. The security of these schemes is based on the assumption that solving the underlying hard lattice problems is computationally infeasible both for classical and quantum computers \cite{regev2005}, making them highly attractive candidates for post-quantum cryptography and Namely Ethereum.\\

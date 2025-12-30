@@ -1,0 +1,65 @@
+\subsubsection{General Concept}
+SLH-DSA (SPHINCS+) \cite{bernstein2019} is a hash-based signature scheme designed to be quantum resistant, under minimal assumptions. It relies on, hash functions, one-time signatures and Merkle trees to provide efficient and secure signatures.
+The scheme was designed to be stateless, making it suitable for blockchain environnement.
+\subsubsection{Mathematical Foundations}
+\begin{enumerate}
+    \item \textbf{One time Signature Scheme}\\One time signature schemes (in this context mainly WOTS+\cite{Buchmann2011XMSSWOTSPLUS}\cite{wotsplus2011}) is a key component of SLH-DSA (SPHINCS+), it allows for the generation of a unique signature for each message, ensuring that even if the private key is compromised, only one signature can be forged. SLH-DSA (SPHINCS+) uses WOTS+ and Merkle trees to construct a stateless signature scheme. At a high level, the WOTS+ scheme works as follows:
+    \begin{enumerate}
+        \item The signer generates a set of random secret values (private key), and repeatedly hashes (public key).
+        \item To sign a message, the signer encodes the hashed message into a sequence of indices, which are used to select the corresponding secret values from the private key, that are then hashed to produce the signature.
+        \item The signature can then be verified by hashing the signature the remaining number of times and checking if the result matches the public key.
+    \end{enumerate}
+    %-- 
+    \item \textbf{Merkle Trees}\cite{merkle1988}\\Merkle trees are a fundamental component of SLH-DSA (SPHINCS+), their structure is similar to that of a binary tree, where each leaf node is a hash of a data block, and each non-leaf node is a hash of its concatenated child nodes. This allows for efficient verification of the integrity of the data stored in the tree.\\ The SLH-DSA (SPHINCS+) constructs a Merkle tree of WOTS+ public keys, derived from a single private key at its root. The scheme then relies on this structure to provide stateless signing and verification.
+\end{enumerate}
+\subsubsection{Scheme Description}
+The schemes is designed with different tunable parameters allowing to adjust the security level and performance. The main parameters are:
+\begin{itemize}
+    \item \textbf{$n$}: the number of bits in the hash function output.
+    \item \textbf{$w$}: (Winternitz parameter) controls the base used in WOTS+
+    \item \textbf{$h$}: the height of the Merkle tree.    
+\end{itemize}
+The key generation process in SLH-DSA (SPHINCS+), consists of generating a large set of WOTS+ key pairs from a seed (part of the private key), and organizing them in a Merkle tree using the hashes of the WOTS+ public keys only, leaving the root of the tree as the public key of the whole scheme.
+
+\begin{algorithm*}[htp]
+    \caption{\textbf{SLH-DSA (SPHINCS+) Key Generation}}
+    \begin{algorithmic}
+        \Require $\mathbf{sk_{\textbf{seed}}}$$\rhd$ The random seed, $\mathbf{n}$ $\rhd$ The number of bits in the hash function output, $\mathbf{w}$ $\rhd$ The Winternitz parameter, $\mathbf{h}$ $\rhd$ The height of the Merkle tree, $\mathbf{H}$ $\rhd$ a hash function.
+        \State 1. Using a pseudo-random function with $sk_{seed}$ generate $2^{h}$ WOTS+ key pairs. (Each pair meant to be used once.)
+        \State 2. Compute the Merkle tree leaf nodes by hashing the WOTS+ public keys.
+        \State 3. Construct the Merkle tree from the leaf nodes, by hashing the concatenation of each pair of child nodes to form the parent node, until reaching the root $(p_k)$.
+        \State \[\text{\textbf{Public Key: }} \mathbf{(p_k)} \text{\textbf{, Secret Key:}}\mathbf{(sk_{seed}, n, w, h)}\]
+    \end{algorithmic}
+\end{algorithm*}
+
+Signing a message with the SLH-DSA (SPHINCS+) scheme is done by hashing the message, determining which WOTS+ key pair to use, signing the message with the corresponding private key, computing the authentication path in the Merkle tree, i.e. the path from the leaf node to the root, including all the "sibling nodes needed to compute the hashes at the higher level, and finally returning the signature as a tuple of the WOTS+ signature and the authentication path.
+\begin{algorithm*}[htp]
+    \caption{\textbf{SLH-DSA (SPHINCS+) Signing}}
+    \begin{algorithmic}
+        \Require $\mathbf{m}$ $\rhd$ \textit{The message to sign}, $\mathbf{(sk_{seed}, n, w, h)}$ $\rhd$ \textit{The secret key}, $\mathbf{H}$ $\rhd$ \textit{A hash function}
+        \State 1. Compute the hash of the message $H(m)$
+        \State 2. Using a pseudo-random function with $sk_{seed}$, find the index $i$ of the WOTS+ key pair to use, $i = PRF(sk_{seed}) \text{ mod } 2^{h}$. This method ensures that the same WOTS+ key pair is used for the same message, allowing for deterministic signing and ensuring the stateless property of the scheme.
+        \State 3. Compute the WOTS+ signature $\sigma_{WOTS+} = WOTS+(H(m))$ using the $i_{th}$ WOTS+ key pair.
+        \State 4. Compute the authentication path $auth_i$ from the leaf node to the root of the Merkle tree.
+        \State \[\text{\textbf{Signature: }}\mathbf{\sigma = (i, \sigma_{WOTS+}, auth_i)}\]
+    \end{algorithmic}
+\end{algorithm*}
+
+Finally, the verification process consists of checking the WOTS+ signature, and then recomputing the Merkle tree root from the leaf node and the authentication path, to compare it the the sender's SLH-DSA (SPHINCS+) public key.
+
+\begin{algorithm*}[htp]
+    \caption{\textbf{SLH-DSA (SPHINCS+) Signature Verification}}
+    \begin{algorithmic}
+        \Require $\mathbf{m}$ $\rhd$ \textit{The message}, $\mathbf{\sigma}$ $\rhd$ \textit{The signature}, $\mathbf{(p_k)}$ $\rhd$ \textit{The public key}, $\mathbf{H}$ $\rhd$ \textit{A hash function}
+        \State 1. Compute the hash of the message $H(m)$
+        \State 2. Using the WOTS+ signature $\sigma_{WOTS+}$ and the hashed, recompute the WOTS+ public key $pk_{WOTS+}$.
+        \State 3. From $pk_{WOTS+}$ and the authentication path $auth_i$, recompute the Merkle tree root $p_k'$, iteratively hashing the concatenation of the leaf node and the sibling nodes in the authentication path.
+        \State  \[\textbf{If }p_k' = p_k \textbf{ the signature is valid.}\]
+    \end{algorithmic}
+\end{algorithm*}
+
+\subsubsection{Security and Integrability with Ethereum}
+
+The scheme's resistance to post-quantum attacks is based on the security of the underlying hash function and the one-time signature scheme, Shor's algorithm has no impact on it's security and Grover's only provides a quadratic speedup for brute-force attacks, a speedup that is ``easily`` countered by increasing the key size. The stateless nature of the scheme may also interesting as it alleviates the need for state management in a blockchain context, making it easier to integrate into Ethereum.\\
+
+However, the signature size ($\sim$5 KB), pose serious concern in regards to its practical integrability to Ethereum. The scheme also requires a large number of hash function calls, which may be a concern in terms of performance and gas costs. In addition, the scheme's processes are particularly computationally intensive both compared to the existing ECDSA scheme, and to other post-quantum schemes, making it less suitable for Ethereum's current architecture.\\ 

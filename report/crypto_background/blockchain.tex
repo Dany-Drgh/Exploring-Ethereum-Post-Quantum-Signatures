@@ -1,0 +1,49 @@
+Blockchains are a type of distributed ledger technology (DLT), which is a decentralized database that allows multiple parties to maintain a shared record of transactions without the need for a central authority. These systems are immutable, providing tamper-proof records. These systems are based on the Merkle tree structure\cite{merkle1988}, a tree-like structure that allows for efficient verification of data integrity. Each leaf node in the Merkle tree represents a transaction, while the non-leaf nodes represent the hash of their child nodes.\\
+A block is a structure that in its simplest form contains a list of transactions, a timestamp, and a reference to the previous block, thus forming a cryptographically linked chain, ensuring integrity znd historical transparency.\\
+Blockchains are by design, relying on nodes (i.e. actors connected to the network) to function, each addressing a specific role, full nodes that store the entire blockchain, light nodes that store only a subset of the blockchain (the block headers), and miners/validators that validate transactions and create new blocks.\\
+
+\subsubsection{Consensus Mechanisms}
+A challenge in blockchain systems is to determine the validity and order of transactions. Consensus mechanisms are implemented to address this challenge, ensuring that all nodes in the network agree on the state of the blockchain.
+
+\subsubsection*{Proof of Work (PoW)}
+Traditional blockchains, such as Bitcoin, use a consensus mechanism called Proof of Work (PoW)\cite{nakamoto2008bitcoin}, in which in order to be able to add a block to the chain a miner must be the first to solve a complex mathematical problem, which requires significant computational power. Usually, the problem involves finding a nonce (a random number) that, when combined with the block's data and hashed, produces a hash that meets certain criteria (e.g., starts with a certain number of leading zeros). The first miner to find a valid nonce broadcasts the new block to the network, and other nodes verify its validity before adding it to their copy of the blockchain.\\
+This consensus mechanism is energy-intensive and can lead to centralization, as miners with more computational power have a higher chance of solving the problem and adding new blocks. Additionally, PoW is vulnerable to 51\% attacks, where a malicious actor gains control of more than half of the network's computational power, allowing them to manipulate the blockchain. These limitations have led to the development of alternative consensus mechanisms, such as Proof of Stake (PoS).
+\subsubsection*{Proof of Stake (PoS)}
+Proof-of-Stake (PoS) \cite{king2012} is a consensus mechanism, addressing some of the problems posed by PoW. Instead of having to be the first to complete a computationally intensive challenge, validators are are chosen through a probabilistic process influenced by the amount of cryptocurrency they hold and are willing to "stake" as collateral. The more coins a validator stakes, the higher the chance of being selected to validate transactions and create new blocks. This process is less energy-intensive than PoW, as it does not require massive computational power, when PoW's energy consumption stems from the need to solve complex mathematical problems, PoS relies on the validators' stake as a form of collateral, thus reducing the energy consumption, the only computation required is the selection of the validator and the validation of the transactions.\\ 
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/Pos.png}
+    \caption{Proof of Stake (PoS) process}
+    \label{fig:pos}
+\end{figure}\\
+\newpage % Remove if it breaks stuff
+However, Pos is not without its limitations, the easiness of creating blocks lead to issues such long-range and nothing-at-stake attacks, in addition, such a system, is heavily reliant on human behavior and trust in the validators, as they can choose to act maliciously (e.g. bribe attacks)\footnote{A more detailed explanation of the PoS consensus mechanism and its limitations can be found here :\url{https://github.com/Dany-Drgh/pos-eth2.0}}.\\
+
+
+\subsubsection{ETH 2.0. Hybrid Blockchain Model}
+Through its transition to Ethereum 2.0, Ethereum is moving from a classical PoW model to a hybrid model combining PoW and PoS mechanisms. 
+
+To address the scalability limitations inherent to the original Ethereum, Ethereum 2.0 introduces sharding—a form of horizontal database partitioning that splits the state and transaction processing across multiple chains (shards), all coordinated by the beacon chain. This allows transactions to be processed in parallel, highly increasing throughput. This transition, divided into phases will lead to a blockchain that is an entanglement of different chains (or layers) :
+\begin{itemize}
+    \item \textbf{The Main chain} (formerly Ethereum 1.0 also called anchor or execution Layer) where smart contracts are deployed and transactions are executed, also providing staking and finality for the Beacon chain and the Shard chains.\begin{itemize}
+        \item Responsible for account balances and transaction history.
+        \item Maintains backward compatibility with Ethereum 1.0. for NFTs, dApps, and other smart contracts.
+    \end{itemize}
+    \item \textbf{The Beacon chain} (or coordination layer) responsible for managing the PoS consensus mechanism and the network's validators.\begin{itemize}
+        \item Tracks validators and their stakes.
+        \item Probabilistically selects validators to propose and attest to new blocks.
+        \item Organizes validators into committees for finality and security.
+        \item Stores validator rewards and penalties (based on performance and honesty).
+    \end{itemize}
+    \item \textbf{The Shard chains} (or data layer),responsible for processing transactions and storing data, each shard being able to process transactions in parallel, increasing the network's scalability. Shard chains periodically submit "crosslinks" (compressed summaries of their states) to the Beacon Chain, enabling synchronization and data availability checks.
+\end{itemize} 
+\newpage % Remove if it breaks stuff
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/ETH_2 structure.png}
+    \caption{ETH 2.0 Hybrid Blockchain Model}
+    \label{fig:hybrid}    
+\end{figure}
+
+
+Ethereum continues to rely on the Keccak-256 hash function and the ECDSA signature algorithm. The integration of post-quantum cryptographic (PQC) algorithms, particularly in the signature scheme layer, has therefore become a subject of growing importance. Ethereum 2.0's modular design potentially facilitates such cryptographic upgrades with less disruption compared to monolithic blockchains.

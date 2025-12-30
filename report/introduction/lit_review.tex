@@ -1,0 +1,49 @@
+\subsubsection{Post-Quantum Cryptography}
+The first concerns about the impact of quantum computing on cryptography were raised by Peter Shor in 1994 \cite{shor1994}, when he introduced his quantum algorithm for factoring large integers and computing discrete logarithms in polynomial time . This algorithm, if implemented on a large enough quantum computer, would break the security of widely used cryptographic schemes such as RSA and ECDSA, which are based on the hardness of these problems, thus rendering them and the systems that rely on them insecure.\\
+
+As mentioned in the previous section, quantum computing, although still in its early stages of development, is rapidly evolving, with breakthroughs emerging every year. As such, the need for cryptographic schemes that are secure against quantum attacks is becoming more and more pressing.\\
+%------------------------------------------------------------------------------%
+\subsubsection{Impact of Quantum Computing on Cryptography and Blockchain}
+
+Quantum computing is expected to have a significant impact on cryptography and blockchain systems. Cryptographic primitives considered secure as of now become vulnerable to quantum algorithms, such as Shor's\cite{shor1994} and Grover's\cite{grover1996} algorithms. This means that the security of widely used cryptographic schemes, such as RSA, ECDSA, and SHA-256, is compromised in the presence of a sufficiently powerful quantum computer.\\
+
+Namely blockchains will suffer from the vulnerabilities as they rely on such primitives for their security, Bitcoin being an example \cite{aggarwal2018}, especially as public key exposure (an inherent property of blockchains), can be used to reconstruct private keys and forge signatures as the schemes used can be broken using quantum algorithms. One can reasonably consider that Ethereum will suffer from the same vulnerabilities, as it relies on similar cryptographic primitives for its security.\\
+
+An other non-negligible threat to these systems is the possibility of having encrypted sensitive data encrypted with quantum-vulnerable primitives being harvested and stored until a quantum computer is available to decrypt it. This period of times is known as the \"risk-window\", putting the immutable nature of blockchains at risk\cite{mosca2018}.\\
+%------------------------------------------------------------------------------%
+\subsubsection{Standardization Process}
+Facing the new challenges posed by quantum computing, the National Institute of Standards and Technology (NIST) has initiated a process to develop cryptographic schemes able to resist quantum attacks\cite{nist2016call}. 
+The goal being to find replacement to widely used schemes such as RSA, ECDSA\dots that are namely vulnerable to Shor's Algorithm.\\
+
+The process started in 2016, and is organized in several rounds, the first round was dedicated to collecting and analyzing the different proposals, the 
+second round was dedicated to selecting the most promising candidates, and the third round was dedicated to further analyzing the selected candidates \cite{NISTPQC2022}. 
+These candidates were then standardized and renamed.\cite{FIPS204}\cite{FIPS205} (Falcon was also renamed and is expected to be standardized as FIPS 206, however its complete standardization was not complete as of June 2025\cite{NIST2024selected}) As of today, they are the standards as they remain the most promising candidates for post-quantum cryptography.\\
+
+Later in the process, NIST called for the submission of additional proposals, looking for new candidate possibly outperforming the existing ones, this new 
+selection process, focused on signature schemes and separate from the "main" 
+process, has reached the conclusion of its first round in 2024 \cite{NIST2024}, selecting 14 to advance to the second round, namely some code-based\cite{codebased} candidates such as CROSS\cite{CROSSspec2023} and LESS\cite{LESSspec2023}, both relying on the hardness of decoding problems in structured codes and employing zero-knowledge techniques to achieve compact and secure signatures.\\ 
+
+The selected candidates, although promising are still at an early stage of development, as such they are not considered as standards yet. And therefore, the focus of this work will be on the schemes that have been standardized by NIST.\\
+
+Additionally to the proposed signature, NIST proposals also cover key encapsulation mechanisms (KEMs) and public key encryption schemes, namely Hamming Quasi-Cyclic \cite{hqc} based on the difficulty of decoding a scrambled message mixed with random errors, a problem believed to be resistant to quantum attacks. Its quasi-cyclic structure allows for smaller key sizes compared to earlier code-based systems, enhancing practicality for real-world use, however as this work focuses on signature schemes, these KEMs although worth mentioning as the may give insight into possible bases for future candidates; will not be covered in this work.\\
+%------------------------------------------------------------------------------%
+\subsubsection{Post-Quantum Signature Candidates}
+\textit{This section aims at presenting the different post-quantum signature schemes that are considered as standards and could possibly be implemented for Ethereum, a detailed explanation of each scheme will be provided in \\
+\hyperref[sec:post-quantum]{Section 3 : PqC Signatures Schemes for Ethereum}.}\\
+
+\textbf{Hash-Based Signatures (HBS)} : 
+Hash Based Signatures schemes provide an alternative to the traditional public key cryptography. The first works were done by Lamport in 1979 \cite{lamport} \cite{roh2018}. The security of the scheme is based on the security of the underlying hash function.\\
+
+HBS scheme can be relevant candidates for post-quantum cryptography, as they are considered secure due to their reliance on the security of cryptographic hash functions, which have been extensively studied and are believed to be resistant to quantum attacks.
+\cite{srivastava2023}. Namely, \textbf{SPHINCS+} \cite{bernstein2019} developed by Bernstein et al., is a stateless signature scheme that allows for high throughput and strong security guarantees, as its security is based on the security of the underlying hash function \cite{kiktenko2019}, and has been retained as one of the three finalists in the NIST post-quantum cryptography signature standardization process.\cite{NISTPQC2022} Other HBS candidates have been considered by NIST, such as XMSS \cite{roh2018} but have not been retained as finalists. After its selection, this scheme was renamed to \textbf{SLH-DSA (Stateless Hash-Based Digital Signature Algorithm)}\cite{FIPS205}
+
+\textbf{Lattice-Based Signatures (LBS)} :
+Lattice-based cryptography is a type of public-key cryptography based on the hardness of learning problems on lattices. The fundamental work on lattice-based signature schemes was done by Ajtai in 1996 \cite{ajtai1996}. The security of the scheme is based on the hardness of the underlying lattice problem, the first cryptographic scheme whose security was proven is the scheme proposed by Regev in 2005 \cite{regev2005}.
+
+NIST has retained two lattice-based signature schemes as finalists in the NIST post-quantum cryptography signature standardization process, \textbf{CRYSTALS-Dilithium} and \textbf{FALCON} \cite{NISTPQC2022}. These schemes are considered secure and efficient, and have been extensively studied in the literature.\\
+
+CRYSTALS-Dilithium \cite{Ducas2018}, developed by Ducas et al., is one of the Lattice based schemes retained, it is based on the hardness of the Ring-LWE problem, and is considered secure and efficient.This secheme then became \textbf{ML-DSA (Module-Lattice-Based Digital Signature Algorithm)}\cite{FIPS204}after standardization.\\
+
+The second Latttice based candidate is FALCON (Fast Fourier Lattice-based Compact Signatures over NTRU) \cite{Fouque2018}(later known as \textbf{FFT over NTRU-Lattice-Based Digital Signature Algorithm}), developed by Fouque et al.,  based on NTRU lattices and uses Fast Fourier Transform (FFT) for key generation and signing. This scheme is based on the shortest vector problem (SVP) in NTRU lattices, a problem believed to be resistant to both classical and quantum attacks.\\
+
+Overall these schemes provide a solid base to consider possible post-quantum cryptographic solutions for Ethereum, as they are considered secure and efficient, and have been extensively studied in the literature. However, other schemes not considered by NIST can also be considered as candidates for post-quantum cryptography in the context of blockchains, such as isogeny based schemes like SQISign \cite{DeFeo2020} having the advantage of outputting small keys and signatures; however these schemes seem to be outperformed by the NIST finalists in terms of efficiency.\cite{Moody2023} and will therefore not be considered in this work due the demands of the blockchain context.\\

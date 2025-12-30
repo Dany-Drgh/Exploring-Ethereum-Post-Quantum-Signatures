@@ -1,0 +1,67 @@
+\subsubsection{General concept}
+
+FALCON\cite{Fouque2018} is a signature scheme based on NTRU lattices\cite{ntru1998} and using fast fourier transforms (FFT) \cite{fft1965}, the former being a lattice based structure that allows for efficient computation of polynomial multiplications, and the latter being a fast algorithm for computing the discrete Fourier transform (DFT) and its inverse. Its resistance stems from the hardness of the structured SIS problem, which is a variant of the Short Integer Solution (SIS) problem, a well-known hard problem in lattice-based cryptography.
+
+\subsubsection{Mathematical Foundations}
+
+\begin{enumerate}
+    \item \textbf{NTRU Lattices} \cite{ntru1998}\\ NTRU lattices are a family of lattice derived from the NTRU system, defined over polynomial rings of the form: \[R_q = \mathbb{Z}_q [x]/(x^n+1)\] with $q$ being a prime number and $n$ being a power of 2. An NTRU lattice is formed by taking the set of all pairs $(u,v) \in \mathbb{R}^{2}_{q}$ such that $u \cdot f + v \cdot g = 0 \text{ mod } q$ for some polynomials $f,g \in R_q$, and each element is then a vector of coefficients of polynomials in $R_q$.\\
+    %--
+    \item \textbf{Fast Fourier Transform (FFT)} \cite{fft1965}\\ FFT is an efficient algorithm for computing the discrete Fourier transform (DFT) and its inverse. It reduces the computational complexity of DFT from $O(N^2)$ to $O(N \log N)$, fourier transforms are useful in the context of FALCON as they allow for efficient polynomial multiplication by changing the domain of the polynomials from the time domain to the frequency domain, where operations are simpler and faster and then transforming back to the time domain, allowing for efficient key and signature generation.\\
+    %--
+    \item \textbf{Structured SIS Problem} \cite{Fouque2018}\\ The structured SIS problem is a variant of the SIS problem, posing it over the $R_q$ ring, the problem is then defined as :\\
+    Given a polynomial $h \in R_q$, and a norm bound $\beta$, find a short vector $z \in R_q$ such that $h \cdot z \equiv t \text{ mod } q$ for a given target $t \in R_q$ and $\|z\| \leq \beta$. 
+\end{enumerate}
+
+\subsubsection{Scheme Description}
+
+The FALCON scheme provides tunable parameters allowing to adjust the security level and performance.\footnote{It is worth noting that the parameters of the proposed version of FALCON were chosen to resist known attacks against structured lattices, strengthening its security assurances.\cite{Fouque2018}} The parameters are as follows:
+\begin{itemize}
+    \item $n$: Degree of the polynomial ring $R_q$, impacts the size of the keys and signatures, and chosen depending on the desired security level.
+    \item $q$: A prime number, which defines the modulus for the polynomial operations, impacts ring structure.
+    \item $\sigma$: The standard deviation of the Gaussian distribution used for sampling.
+    \item $\beta$: The norm\footnote{(The norm is usually either $||\cdot||_{\infty}$ or $||\cdot||_{2}$)} bound for the structured SIS problem, also influences key/signature sizes. 
+\end{itemize}
+
+\begin{algorithm*}[htp]
+    \caption{\textbf{FALCON Key Generation}}
+    \begin{algorithmic}
+        \Require $\mathbf{n, l, \sigma}$
+        \State 1. Sample two short polynomials $f, g \in \mathbb{Z}[x] / (x^{n}+1)$\\(their coefficients are sampled from a Gaussian distribution with standard deviation $\sigma$ over $\mathbb{Z}$)
+        \State 2. Ensure $f$ is invertible and compute $f^{-1} \text{ mod } q$.
+        \State 3. Compute $h = \frac{g}{f} \text{ mod } q \in R_{q}$
+        \State \[\text{\textbf{Public Key: }} \mathbf{(h)} \text{\textbf{, Secret Key: }}\mathbf{(f, g)}\]
+    \end{algorithmic}
+\end{algorithm*}
+
+\begin{algorithm*}[htp]
+    \caption{\textbf{FALCON Signing}}
+    \begin{algorithmic}
+        \Require $\mathbf{m}$ $\rhd$ \textit{The message to sign}, $\mathbf{(f, g)}$ $\rhd$ \textit{The secret key}, $\mathbf{(h)}$ $\rhd$ \textit{The public key}, $\mathbf{H}$ $\rhd$ \textit{A hash function}, $\sigma$ $\rhd$ \textit{The standard deviation of the Gaussian distribution used for sampling}, $\beta$ $\rhd$ \textit{The norm bound for the structured SIS problem}
+        \State 1. Sample a short vector of polynomials $y \in \mathbb{Z}[x] / (x^{n}+1)$
+        \State 2. Compute $v = h \cdot y \text{ mod } q$
+        \State 3. Compute the challenge $c = H (v || m)$
+        \State 4. Compute $z = y + f \cdot c$
+        \State  If $||z||\leq \beta$ and $||v- g \cdot c|| \leq \beta$ then the signature is accepted, otherwise $y$ is resampled.
+        \State \[\text{\textbf{Signature: }}\mathbf{(z, c)}\]
+    \end{algorithmic}
+\end{algorithm*}
+
+Verifying an FALCON signature consists of ensuring that $z$ is a ``valid`` short vector, and then recomputing the challenge $c$ to compare it with the one provided in the signature.\\
+
+\begin{algorithm*}[htp]
+    \caption{\textbf{FALCON Signature Verification}}
+
+    \begin{algorithmic}
+        \Require $\mathbf{m}$ $\rhd$ \textit{The message}, $\mathbf{(z, c)}$ $\rhd$ \textit{The signature},$\beta$ $\rhd$ \textit{The norm bound for the structured SIS problem}
+        \State If $||z|| > \beta$ \textbf{The signature is invalid}
+        \State 1. Compute $v' = h \cdot z \text{ mod } q$ (An approximation of the $v$ the signer computed)
+        \State 2. Compute the challenge $c' = H (v' || m)$
+        \State  \[\textbf{If }c' = c \textbf{ the signature is valid.}\]
+    \end{algorithmic}
+\end{algorithm*}
+
+\subsubsection{Security and Integrability with Ethereum}
+The security of FALCON based on the hardness of the structured SIS problem, and the small signature size, make this scheme an interesting candidate for Ethereum, namely such compact signatures would save space on the blockchain. However this scheme is vulnerable to side-channel attacks \cite{Fouque2018}, and its implementation would require some work to prevent such attacks, making it less straightforward to integrate than other schemes.\\
+
+Additionally, EVMs (Ethereum Virtual Machines) are not designed to handle the polynomial operations required by FALCON, or other Lattice based schemes\footnote{As explained here : \url{https://ethereum.org/en/developers/docs/evm/},  EVMs are designed for 256-bit integer arithmetics}, and would require significant changes to the EVM architecture to support such operations, which would one of the main challenges of integrating FALCON or other Lattice based schemes into Ethereum.\\

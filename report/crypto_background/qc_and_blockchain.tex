@@ -1,0 +1,43 @@
+\subsubsection{Quantum Computing}
+Quantum computing introduces a totally new approach to computing, when so far computers fundamentally relied on the binary system through bits, quantum computers use qubits, having two fundamentally different properties as opposed to bits:
+\begin{itemize}
+    \item \textbf{Superposition}: A qubit can be in a state of 0, 1 or both at the same time, allowing for parallel processing of information.
+    \item \textbf{Entanglement}: Qubits can be entangled, meaning the state of one qubit can depend on the state of another, no matter how far apart they are.
+\end{itemize}
+Such properties allow quantum computers to perform tasks in a way classical computers cannot, creating threats to current cryptographic systems.
+
+\subsubsection{Main threats to Cryptography}
+The particularities of qubtis allow quantum computers to solve some hard problems on which current cryptographic systems are based, exponentially faster than classical computers. The most notable examples are:
+\begin{itemize}
+    \item \textbf{Integer factorization}: The problem of finding the prime factors of a composite number, which is the basis of RSA encryption.
+    \item \textbf{Discrete logarithm problem}: The problem of finding the exponent in a modular arithmetic equation, which is the basis of DSA and ECDSA signatures.
+    \item \textbf{Hash functions}: The problem of finding a pre-image or collision in a hash function, which is the basis of many cryptographic systems.
+\end{itemize}
+
+\subsubsection*{Shor's Algorithm}
+Shor's Algortihm \cite{shor1994} use the power of quantum computing to solve hard problems in polynomial times, ($O((log(N))^3)$), by reducing them to a periodicity problem.\\
+
+\textit{Shor's algortihm for integer factorizations is provided as an example\footnote{The QFT is only mentioned as it is involved in the algorithm, further details about this operation are available at : \url{https://en.wikipedia.org/wiki/Quantum_Fourier_transform}}:}\\
+
+\begin{algorithm*}[htp]
+    \caption{Example of Shor's Algorithm for Integer Factorization}
+    \begin{algorithmic}
+    \Require $N$ $\rhd$ \textit{The number to be factored}
+    \State 1. Choose a random integer $a$ such that $gcd(a, N) = 1$
+    \State 2. Find the order $r$, i.e., the smallest integer such that $a^r \equiv 1 \mod N$ \\ $\rhd$ \textit{$r$ is the period of the function $f(x) = a^x \mod N$}
+    \State \textbf{\textit{This step is done using quantum parallelism}}
+    \State A quantum computer prepares a superposition of states and evaluates $f(x)$ in parallel.
+    \State The Quantum Fourier Transform to extract the period.
+    \State 3. If $r$ is even, compute $x = a^{r/2} \mod N$, $x$ is then a non-trivial factor of $N$.
+    \State 4. If $r$ is odd, pick a different $a$ and repeat the process.
+    \end{algorithmic}
+\end{algorithm*}
+
+Instead of the classical time complexity of $\exp ((\log N)^{\frac{1}{3}}(\log \log N)^{\frac{2}{3}})$, Shor's algorithm can factor integers in polynomial time, making it a powerful tool for breaking RSA, applying a similar approach to the discrete logarithm problem, Shor's algorithm can also break DSA and ECDSA signatures.\\
+
+\subsubsection*{Grover's Algorithm}
+Other aspects of cryptography are also threatened by quantum computing, such as hashing functions. Grover's algorithm \cite{grover1996} can search an unsorted database of $N$ items in $O(\sqrt{N})$ time, thus providing a quadratic speedup for brute-force attacks namely on hashing functions. This means that a hash function with a security level of $n$ bits would only provide $n/2$ bits of security against quantum attacks. For example, SHA-256, which is currently considered secure, would only provide 128 bits of security against quantum attacks.
+\footnote{The algorithm is not detailed here as it is not directly related to the topic of this report, but it is worth noting that Grover's algorithm does not break hashing functions, but rather reduces their security level.}\\
+
+\textit{And important note is that PoW blockchain are expected to have a better resilience to quantum attacks than PoS blockchains, being reliant on Hash functions, the threat may be less severe than for PoS blockchains. This idea will be further discussed in a later section.}\\
+

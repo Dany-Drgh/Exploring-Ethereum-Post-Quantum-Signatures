@@ -1,0 +1,123 @@
+The proof of concept implementation was done in python using packages offering the necessary cryptographic primitives, the \mintinline{python}|ecdsa|\footnote{Link to the ecdsa package: \url{https://pypi.org/project/ecdsa/}} package for the and the \mintinline{python}|pqcrypto|\footnote{Link to the ecdsa package: \url{https://pypi.org/project/pqcrypto/}} package for the post-quantum cryptography primitives. The implementation is available on GitLab\footnote{Link to the GitLab repository: \url{https://gitlab.unige.ch/Dany.Al-Moghrabi/exploring-ethereum-post-quantum-signatures/-/tree/main/src?ref_type=heads}}
+
+For comparison, two blockchain models were implemented: the main one being the simplified Etherreum blockchain model that will represent the current state of the Ethereum blockchain and its expected states throughout and after the transition,and a second Proof-of-work based one, that will help gain insight on how the performance of a proof-of-work blockchain adapted to maintain its security against quantum threats would compare both to the post-quantum proof-of-stake blockchain and to a classical non-post-quantum proof-of-work blockchain. 
+
+\subsubsection{Block Structure and Chain Logic}
+In this model, the block structure is defined as a simplified version of the Ethereum block structure, which includes the following fields:
+\begin{itemize}
+    \item \texttt{index}: The block number in the chain.
+    \item \texttt{previous\_hash}: The hash of the previous block.
+    \item \texttt{transactions}: A list of transactions objects, containing the sender, recipient, amount, and signature.
+    \item \texttt{timestamp}: The time when the block was created.
+    \item \texttt{nonce}: A number used only for the proof of work blockchain.
+\end{itemize}
+
+\begin{listing}[!htp]
+    \inputminted{python3}{code/block.py}
+    \caption{Block class definition.}
+\end{listing}
+
+The chain logic is implemented to handle the addition of new blocks, verification of transactions, and block validation. And is designed to allow for performance measurements manageable in environments with computational limited resources, while still being representative of the Ethereum blockchain. It also includes a simple way to manage the proportion of blocks signed with the ECDSA and ML-DSA signature schemes, allowing for easy simulation of the transition phases of the Ethereum blockchain.
+
+
+\subsubsection{Transaction Model}
+
+The transaction class was designed to represent a simple transaction in the blockchain, containing the sender, recipient, amount, and signature, additionally the possibility to hash the transaction was added to allow for easy verification of the transaction's integrity. The transaction class also includes methods to serialize and hash the transaction, which are used for block validation and chain logic. The transaction class is designed to be simple and efficient, allowing for easy integration into the blockchain model. 
+
+\begin{listing}[!htp]
+    \inputminted{python3}{code/tx.py}
+    \caption{Transaction class definition.}
+\end{listing}
+
+\subsubsection{Signature schemes and Key Sizes}
+In order for the schemes to be easily swappable, an abstract class \mintinline{python}|SignatureScheme| was created, which defines the methods that all signature schemes must implement. Three signature schemes are implemented using this interface and packages that provide the necessary cryptographic primitives. The schemes are as follows:
+\begin{itemize}
+    \item \textbf{ECDSA (SECP256k1)}: The current signature scheme used in Ethereum, based on the SECP256k1 curve.\begin{itemize}
+        \item Key size: Private key: $32$ bytes; Public key: $65$ bytes.
+        \item Signature size: From $64$ to $72$ bytes.
+    \end{itemize}
+
+    \item \textbf{ML-DSA (ML-DSA-65)}: The ML-DSA signature scheme with equivalent security to the current ECDSA scheme.\begin{itemize}
+        \item Key size: Private key: $4032$ bytes; Public key: $1952$ bytes.
+        \item Signature size: $3293$ bytes.
+        \item \textit{This scheme is also used to sign the transactions in the post-quantum proof-of-stake blockchain.}
+    \end{itemize}
+\end{itemize}
+
+\textit{The key and signature sizes are taken from the respective packages used for the implementation, and are subject to small variations, but aim at being representative of the actual sizes used in the Ethereum blockchain or in the NIST standards.}
+
+In order to facilitate the integration of the schemes, an abstract class \mintinline{python}|SignatureScheme| was created, which defines the methods that all signature schemes must implement. This allows for easy swapping of the signature schemes in the blockchain model.
+\newpage
+\begin{listing}[!htp]
+    \inputminted{python3}{../src/signature_schemes/signature_scheme.py}
+    \caption{SignatureScheme abstract class definition.}
+\end{listing}
+
+\subsubsection{Validator Model and Dual Singing}
+
+This model uses a simplified version of the Ethereum proof-of-stake model, and focusing on the signature, block production and validation processes, it does not implement the staking and slashing mechanisms, instead validators are fully randomly selected from a basic pool of validators rather rather than based on stake-weighted probability.
+
+For the simulated transition phases of the Ethereum blockchain, in order to support the dual signing mechanisms Each validator is assigned keypairs for both the ECDSA and ML-DSA signature schemes. Block validation is done via digital signatures produced by the selected validator, which mimics the Ethereum mechanism where validators attest to blocks through signed messages.
+
+\begin{listing}[!htp]
+    \inputminted{python3}{code/validator.py}
+    \caption{Validator class definition.}
+\end{listing}
+
+\subsubsection{Proof of Work Blockchain}
+
+In order to gain insight on how a proof-of-work blockchain adapted to maintain its security against quantum threats would compare to the post-quantum proof-of-stake blockchain, another blockchain model was implemented. A first model was implemented to represent a standard proof-of-work blockchain, similar to Bitcoin's, using the ECDSA signature scheme for internal transactions and SHA-256. A second model was implemented to represent a post-quantum proof-of-work blockchain, using the ML-DSA signature scheme for internal transactions and SHA-512 as the hash function, this model uses a proof-of-work mechanism with hashes double the length of the standard and transactions signed (in proof of work block chains such as Bitcoin transactions are still signed although blocks are not \cite{bitcoinDevDocs}) simulating the management of both the speedup offered by Grover's algorithm\cite{grover1996} and Shor's\cite{shor1994} algorithm breaking the usually used signature scheme. The block structure and chain logic are similar to the post-quantum proof-of-stake blockchain, but with the addition of a nonce field for proof-of-work.
+
+The block structure for the proof-of-work blockchain is as follows:
+\begin{itemize}
+    \item \texttt{index}: The block number in the chain.
+    \item \texttt{previous\_hash}: The hash of the previous block.
+    \item \texttt{transactions}: A list of transactions objects, containing the sender, recipient, amount, and signature.
+    \item \texttt{timestamp}: The time when the block was created.
+    \item \texttt{difficulty}: The difficulty of the proof-of-work.
+    \item \texttt{nonce}: A number used for proof-of-work.
+\end{itemize}
+
+\begin{listing}[!htp]
+    \inputminted{python3}{code/pow.py}
+    \caption{Proof-of-Work Block and Blockchain class definition.}
+\end{listing}
+
+Both the block and blockchain class are designed to work similarly to the proof-of-stake blockchain, naturally with the exception being their consensus mechanism, allowing for easy integration and comparison between the two models.
+
+\subsubsection{Phase Configuration}
+
+In order to simulate the transition phases of the Blockchain, 4 blockchains were set up, each representing a different phase of the transition by implementing a different proportion of blocks signed with the ECDSA and ML-DSA signature schemes. The phases are as follows:
+\begin{figure}[!htp]
+    \centering
+    \begin{tabular}{c|p{6cm}|c|c}
+        \textbf{Phase} & \multicolumn{1}{|c|}{\textbf{Description}} & \textbf{\% of ECDSA Blocks}& \textbf{\% of ML-DSA Blocks} \\
+        \hline
+        Phase 1 & Initial phase with only ECDSA blocks & $100\%$ & $0\%$ \\
+        \hline
+        Phase 2 & Hybrid Phase with both ECDSA and ML-DSA blocks with a majority of ECDSA blocks & $75\%$ & $25\%$ \\
+        \hline
+        Phase 3 & Hybrid Phase with both ECDSA and ML-DSA blocks with a majority of ML-DSA blocks & $25\%$ & $75\%$ \\
+        \hline
+        Phase 4 & Final phase with only ML-DSA blocks & $0\%$ & $100\%$ \\        
+    \end{tabular}
+    \caption{Simulated phases of the transition from ECDSA to ML-DSA}
+\end{figure}
+
+This configuration aims to represent the gradual transition from the current ECDSA-based Ethereum blockchain to a post-quantum ML-DSA-based blockchain, allowing for performance tracking through the process as well as a comparison between the current state ot the Ethereum blockchain (Phase 1) and the expected post-quantum one (Phase 4).
+
+\subsubsection{Simulation and Performance Tracking}
+The simulation is designed to run for 1000 blocks, with the ratio of usage of each scheme determined as explained earlier. The simulation tracks the following performance metrics:
+\begin{itemize}
+    \item \textbf{Block Creation Time}: The time taken to create each block.(This measurement is also realized for the proof-of-work blockchain.)
+    \item \textbf{ Average Transaction Verification Time}: The time taken to verify each transaction in the block.
+    \item \textbf{Average Signature Verification Time}: The time taken to verify the signature of each block.
+\end{itemize}
+The latter two metrics are weighted by the ratio of blocks signed with each scheme, allowing for a fair comparison between the two signature schemes.
+
+\begin{listing}[htp]
+    \inputminted{python3}{code/sim.py}
+    \caption{Block time measurements for the proof-of-stake blockchain phases.(Measurements for the proof-of-work blockchain are done in a similar way.)}    
+\end{listing}
+
+The singing and verification measurements are done in a similar way, at each phase, 1000 signatures are created respecting each phase's ratio of usage of each scheme, and the time taken to sign and verify each signature is measured. The average time is then calculated for each phase, allowing for a comparison between the two signature schemes.  

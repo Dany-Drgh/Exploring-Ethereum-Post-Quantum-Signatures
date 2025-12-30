@@ -1,0 +1,11 @@
+The selection of a signature scheme for the Ethereum blockchain will rely on different criteria ensuring the selecting scheme will address all the requirements of the blockchain context, the following criteria will be used:
+\begin{itemize}
+    \item \textbf{Security:} The main concern of any cryptographic scheme is its security. All three candidates relying on hard mathematical problems and being quantum resistant, to the point of having become NIST standards \cite{NIST2024}, this criteria is met, leading to the choice being based on the other criteria.
+    \item \textbf{Key / Signature Size:} SLH-DSA (SPHINCS+) provides large signature and key sizes, negatively impacting its scalability and performance in the context of Ethereum thus making the scheme seem unfit for the blockchain context, the other two candidates have a smaller key and signature size, while preserving satisfactory security levels.
+    \item \textbf{Signing and Verification performance:} ML-DSA is expected to be faster than FALCON, especially in the verification process, a particularly important aspect as signatures verifications are a very frequent operation in the Ethereum blockchain. ML-DSA however provides larger signatures than FALCON, which may impact the performance of the scheme in the context of Ethereum, but is expected to be compensated by the faster verification process.
+    \item \textbf{Integrability:} SLH-DSA (SPHINCS+) introduces the challenge of managing the large signature and key sizes, leading to significant intergration challenges with the Ethereum blockchain. 
+    FALCON being a Lattice-based scheme, it will require an adaptation of EVMs to accommodate FFT-based operations, inducing a possibly heavy overhead in deployment. 
+    ML-DSA although needing some adaptation of EVMs, does not seem to require as much as FALCON, and is expected to be easier to integrate into the Ethereum blockchain. 
+\end{itemize}
+
+Although all candidates have been standardized by NIST, and therefore being relevant in the consideration, ML-DSA stands out as the most suitable scheme for the Ethereum blockchain based on its theoretical and expected performance, inducing an expected lower impact on gas fees and offering a better integrability than the other candidates.

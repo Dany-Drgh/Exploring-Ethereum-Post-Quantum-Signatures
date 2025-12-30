@@ -1,0 +1,74 @@
+This subsection aims at presenting the results of the different performance metrics collected during the simulations, comparing the different processes across the 4 different transition phases of the blockchain and an PoW based blockchains, one representing a system close to bitcoin's and one adapted to offer post-quantum resistance.
+
+\subsubsection{Block Time}
+
+Block creation time refers to the total time required to construct, sign (if applicable), and append a block to the blockchain. This metric includes transaction processing, block header generation, signature computation, and chain linkage. 
+
+In the simulation, 1000 blocks were generated for each phase under a fixed configuration, and the average block creation times were measured.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/block_time.png}    
+    \caption{Average block creation time in the PoS Simulation.}   
+\end{figure}
+
+As expected, block creation time increases gradually as more ML-DSA blocks are introduced. This reflects the relatively higher computational cost of ML-DSA signing operations compared to ECDSA. The difference between Phases 1 and 4 remaining relatively small ($~0.11 ms$). This increase, although measurable, represents only a $\sim 24\%$ rise over the baseline and remains within Ethereum's tolerance for transaction finality, which typically operates on block times of 12 seconds. Thus, it is unlikely to create any meaningful latency at scale.
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{images/block_time_pow.png}    
+    \caption{Average block creation time in the PoW Simulation.}   
+\end{figure}
+
+The Proof-of-Work configurations show an average block time an order of magnitude higher than the Proof-of-Stake phases due to the inherent computational cost of mining, with the quantum resistance configuration being slightly slower than the standard PoW configuration. This is expected, as the hash function used (SHA-512) in introduces additional computational overhead compared to the traditional SHA-256 used in Bitcoin. The PoW results serve primarily as a baseline to show that, even with quantum-safe hashing, PoW remains significantly more resource-intensive than a signature-heavy PoS model. This confirms that the performance advantage of PoS holds even in the context of quantum-resistant signatures. 
+
+These results confirm that, while ML-DSA introduces measurable overhead in block creation, it seems to remain within acceptable limits for real-time block production. 
+
+\subsubsection{Signing and Verification Time}
+
+This metrics respectively measure the time required to produce a signature and verify it, independently of other blockchain logic. It reflects the cryptographic cost associated with each signature scheme.
+
+In the experiment, 1000 signatures were generated and verified per phase. In mixed phases, a weighted average was computed based on the proportion of ECDSA and ML-DSA used. The results are shown hereafter:
+
+\begin{figure}[!htp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/sign_time.png}
+    \includegraphics[width=0.8\textwidth]{images/verif_time.png}
+    \caption{Average block signing and verification Time comparison across all ETH based blockchains.}   
+\end{figure}
+
+\noindent The figure reveals two key trends:
+
+\begin{itemize}
+    \item Signature time increases slightly with higher ML-DSA adoption. Phase 1 (100\% ECDSA) averaged $\sim 0.45$ ms, while Phase 4 (100\% ML-DSA) reached $\sim 0.60$ ms. This overhead remains modest and does not represent a major bottleneck in block production.
+    
+    \item Verification time decreases significantly as the portion of ML-DSA block increases. Verification in Phase 1 averaged $\sim 1.60$ ms, while ML-DSA in Phase 4 required only $\sim 0.14$ ms, this speedup is expected as ML-DSA signatures are known to be much faster to verify than ECDSA signatures, due to their structure and the underlying mathematical operations involved. In addition since verification occurs every time a transaction is processed or re-validated, while signing is performed only once by the sender, ML-DSA's speedup on the verification side is particularly advantageous for a high-throughput blockchain like Ethereum.
+\end{itemize}
+
+
+These results show that ML-DSA introduces a manageable overhead in signing while offering substantial gains in verification speed. This trade-off may not only support the feasibility of ML-DSA in Ethereum, but also suggest a performance benefit in scenarios where verification is the more frequent operation.
+
+\subsubsection{Gas Cost Estimation}
+
+An important factor in considering the integration of ML-DSA into Ethereum is the gas cost\footnote{See Ethereum gas documentation: \url{https://ethereum.org/en/developers/docs/gas/\#what-is-gas}} associated with transmitting and verifying those signatures. In Ethereum, calldata incurs a cost of 16 gas per non-zero byte and 4 gas per zero byte. Since post-quantum signatures such as ML-DSA are significantly larger than ECDSA signatures, they result in substantially higher gas consumption during transaction propagation and processing.
+
+\begin{figure}[!htp]
+    \centering
+    \begin{tabular}{c|c|c}
+        \textbf{Phase} & \textbf{Gas Cost (in gas units)} & \textbf{Average Signature Size (bytes)} \\
+        \hline
+        Phase 1 (ECDSA) & $1024.00$ & $64.00$ \\
+        \hline
+        Phase 2 (Hybrid 75\% ECDSA - 25\% ML-DSA ) & $13917.00$ & $875.25$ \\
+        \hline
+        Phase 3 (Hybrid 25\% ECDSA - 75\% ML-DSA) & $39703.00$ & $2497.75$ \\
+        \hline
+        Phase 4 (ML-DSA) & $52596.00$ & $3309.00$ \\        
+    \end{tabular}
+    \caption{Gas cost and average signature size for each simulation phase.}
+\end{figure}
+
+As expected, gas costs scale nearly linearly with the size of the signature.In the final state, with average signatures of ($\sim 3309$ bytes)   post-quantum signatures would occupy a disproportionate share of a block's 15M gas limit. For example, a single ML-DSA transaction could consume over 50,000 gas solely for calldata.
+These results highlight an important challenge of adopting post-quantum signatures on Ethereum: the significant increase in transaction size, and therefore in gas cost. This overhead may be mitigated in practice through future protocol optimizations, or introducing post-quantum-aware gas pricing models.\\
+
+\noindent Despite the increased signature size and moderate signing overhead, the simulation demonstrates that ML-DSA offers interesting performance characteristics for Ethereum. The reduced verification time and acceptable increase in block production latency support its potential as a scalable post-quantum signature candidate. However, addressing calldata gas inefficiency and optimizing transaction formats will be essential to ensure practical adoption.

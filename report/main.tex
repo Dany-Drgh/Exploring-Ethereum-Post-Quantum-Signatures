@@ -1,0 +1,140 @@
+\documentclass[twoside,a4paper]{article}
+
+
+%% Define your personal info here %%%%%%%%%%%%%%%%%%%%%%% <--------------- X
+\newcommand\TPid{}
+\newcommand\TPname{Exploring Quantum-Resistant Signatures for Ethereum's Hybrid Blockchain}
+\newcommand\Firstname{Dany}
+\newcommand\Familyname{A. DARGHOUTH}
+\newcommand\Email{dany.al-moghrabi@etu.unige.ch}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{preambule}
+\addto\captionsenglish{\renewcommand*\contentsname{Summary}}
+\addbibresource{ref.bib}
+
+%%%%%%%% DOCUMENT %%%%%%%%
+\begin{document}
+% % % % %
+% % % %
+% % %
+% %
+%   
+
+\input{title}
+
+\newpage
+\section*{Acknowledgements}
+\input{misc/acknowledgements.tex}
+
+\newpage
+\section*{Abstract} 
+    \input{misc/abstract.tex}
+
+\newpage
+\tableofcontents
+
+\vfill
+\begin{center}
+    \textit{The grammar, spelling and formatting of this report have been reviewed using AI tools such as Quillbot and Grammarly, explaining a possible high detection score when using AI detection tools.}
+\end{center}
+
+\newpage
+%==============================================================================%
+\section{Introduction}
+\input{introduction/introduction.tex}
+%------------------------------------------------------------------------------%
+\subsection{Context}
+\input{introduction/context.tex}
+%------------------------------------------------------------------------------%
+\subsection{Literature Review}
+\input{introduction/lit_review.tex}
+%------------------------------------------------------------------------------%
+\subsection{Methodology}
+\input{introduction/methodology.tex}
+%==============================================================================%
+\section{Cryptographic Background}
+\input{crypto_background/intro_crypto.tex}
+%------------------------------------------------------------------------------%
+\subsection{Private and Public Key Cryptography}
+\input{crypto_background/priv_pub_crypto.tex}
+%------------------------------------------------------------------------------%
+\subsection{Hash Functions}
+\label{sec:hash_functions}
+\input{crypto_background/hash_funcs.tex}
+%------------------------------------------------------------------------------%
+\subsection{Digital Signatures}
+\label{sec:digital_signatures}
+\input{crypto_background/signatures.tex}
+%------------------------------------------------------------------------------%
+\subsection{Blockchains}
+\input{crypto_background/blockchain.tex}
+%------------------------------------------------------------------------------%
+\subsection{Lattice-Based Cryptography}
+\input{crypto_background/lattice-based.tex}
+%------------------------------------------------------------------------------%
+\subsection{Hash-Based Cryptography}
+\input{crypto_background/hash-based.tex}
+%------------------------------------------------------------------------------%
+\subsection{Quantum Computing and Cryptography}
+\input{crypto_background/qc_and_blockchain.tex}
+
+%==============================================================================%
+\section{PqC Signatures Schemes for Ethereum}
+\label{sec:post-quantum}
+%------------------------------------------------------------------------------%
+\subsection{SLH-DSA (SPHINCS+) (Stateless Hash-Based Digital Signature Algorithm)}
+\input{pqc_schemes/slh-dsa.tex}
+%------------------------------------------------------------------------------%
+\subsection{FALCON (FFT over NTRU-Lattice-Based Digital Signature Algorithm)}
+\input{pqc_schemes/fn-dsa.tex}
+%------------------------------------------------------------------------------%
+\subsection{ML-DSA (Module-Lattice-Based Digital Signature Algorithm)}
+\input{pqc_schemes/ml-dsa.tex}
+%==============================================================================%
+\newpage
+\section{Implementation on the Ethereum Blockchain}
+%------------------------------------------------------------------------------%
+\subsection{Selected Post-Quantum Signature Scheme}
+\input{implem/selected_signature.tex}
+%------------------------------------------------------------------------------%
+\subsection{Implementation Strategy}
+\input{implem/implem_strat.tex}
+%------------------------------------------------------------------------------%
+
+\subsection{Implementation Details}
+\input{implem/implem_details.tex}
+%==============================================================================%
+\section{Feasibility and Performance Analysis}
+%------------------------------------------------------------------------------%
+\subsection{Feasibility Analysis}
+\input{feasability_performance/feasability.tex}
+%------------------------------------------------------------------------------%
+\newpage
+\subsection{Performance Analysis}
+\input{feasability_performance/performance.tex}
+
+%==============================================================================%
+\section{Privacy and Security Enhancements}
+%------------------------------------------------------------------------------%
+\subsection{Privacy Enhancements through post-quantum signatures}
+\input{priv_sec_enhancements/privacy_with_pqc.tex}
+%------------------------------------------------------------------------------%
+\subsection{Use of zero-knowledge proofs alongside post-quantum signatures}
+\input{priv_sec_enhancements/zero-knowledge.tex}
+
+%==============================================================================%
+\section{Conclusion}
+\input{conclusion/conclusion.tex}
+%==============================================================================%
+\newpage
+\printbibliography
+%==============================================================================%
+
+
+%
+% %
+% % %
+% % % %
+% % % % %
+\end{document}

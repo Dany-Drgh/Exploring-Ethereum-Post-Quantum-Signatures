@@ -1,0 +1,56 @@
+Exchanging information while preserving confidentiality is a fundamental problem in cryptography, and it is the principal motivation for the development of public and private key cryptography.
+
+\subsubsection{Private Key Cryptography}
+\subsubsection*{Definition and Concept:}
+\begin{itemize}
+    \item A private key cryptography system is a system in which the same key ($K$) is used for both encryption and decryption. The key is kept secret and is shared only between the sender and the recipient.
+    %%%%
+    \item When encrypting a message $M$ using a private key $K$, the sender uses an encryption function $E$ to produce a ciphertext $c$:
+    \[c = E_K(M)\]
+    The recipient then uses a decryption function $D$ to decrypt the message using the same key $K$:
+    \[M = D_K(c)\]
+    %%%%
+    \item \textbf{Main advantages of private key cryptography :}
+    \begin{itemize}
+        \item \textbf{Confidentiality:} The message is encrypted using a secret key, and only the users having the secret can decrypt it using the same key.
+        %%%
+        \item \textbf{Speed:} Private key cryptography is generally faster than public key cryptography, as it requires less computational power.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/private-crypto.png}
+    \caption{Private Key Cryptography}
+    \label{fig:private_key_crypto}
+\end{figure}
+
+%------------------------------------------------------------------------------%
+\subsubsection{Public Key Cryptography}
+
+\subsubsection*{Definition and Concept:}
+\begin{itemize}
+    \item A public key cryptography system is a system wherein each user has two mathematically related keys, a public key ($K_p$) (for encryption) and a private key ($K_s$) (for decryption). The public key, being shared with every other user, is used to encrypt messages addressed to the user, who then uses their own private key (kept secret) to decrypt the message.
+    %%%%
+    \item For instance, considering two users, $A$ and $B$, respectively having public keys $K_{pA}$ and $K_{pB}$, and private keys $K_{sA}$ and $K_{sB}$ and using an encryption function $E$ and a decryption function $D$, in the case where $A$ wants to send an encrypted message $M$ to $B$, $A$ would encrypt $M$ using $K_{pB}$, and $B$ would decrypt the message using $K_{sB}$:
+    \[c = E_{K_{pB}}(M)\]
+    \[M = D_{K_{sB}}(c)\]
+    %%%%
+    \item \textbf{Main advantages of public key cryptography:}
+    \begin{itemize}
+        \item \textbf{Confidentiality:} The message is encrypted using the public key of the recipient, and only the recipient can decrypt it using their private key.
+        %%
+        \item \textbf{Authentication:} The sender can sign the message using their private key (as explained later in\\ \hyperref[sec:digital_signatures]{Section 2.3: Digital Signatures}), and the recipient can verify the signature using the sender's public key.
+        %%
+        \item \textbf{Non-repudiation:} The sender cannot deny having sent the message, as the recipient can verify the signature using the sender's public key.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/public-crypto.png}
+    \caption{Public Key Cryptography}
+    \label{fig:public_key_crypto}
+\end{figure}
+
+The main examples of public key cryptography systems are the RSA and Elliptic Curve cryptography systems, however such schemes require the use of longer keys in order to provide satisfactory security, so in practice they are used to provide a shared secret key for symmetric key cryptography systems.

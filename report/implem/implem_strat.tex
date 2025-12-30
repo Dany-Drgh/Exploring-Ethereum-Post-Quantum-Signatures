@@ -1,0 +1,12 @@
+Integrating the new signature scheme into the existing Ethereum environnement requires taking into account several critical issues, namely, compatibility with the current protocol, performance, security, user adaptation and trust. In order to ensure a smooth transition, a phased approach seems to be the most appropriate :
+\begin{itemize}
+    \item Phase 0: Research and Scheme selection 
+    %--
+    \item \textbf{Phase 1: Dual Signature Verification Support: }This first phase will focus on introducing the verification process of the the new signature scheme, preparing the blockchain to accept new signatures while maintaining backwards compatibility. Users should not feel the impact of this phase, neither should the gas fees or overall performance of the blockchain. This phase is also the point at which EVM should be adapted to support ML-DSA's lattice-based operations. 
+    %--
+    \item \textbf{Phase 2: Hybrid Signing: }At this stage, the new signature scheme will be entirely integrated into the blockchain and users will have the option to chose between the legacy scheme or the new one for signing their transactions. This phase will allow users to gradually adapt to the new scheme, while still being able to use the legacy scheme and will give useful insights on the new scheme's performance and security in a real-world context.
+    %--
+    \item \textbf{Phase 3: Network-Wide Migration: } During this phase, ML-DSA will become the default signature scheme for the Blockchain, all critical operations will be performed using the new scheme, while the legacy scheme will still be supported for a period of time, progressively eliminating ECDSA from the network's operations.
+    %--
+    \item \textbf{Phase 4: ECDSA Deprecation: } The final phase will consist of the complete removal of ECDSA from the transaction validation process. This process might require a hard fork to ensure all nodes are updated and the legacy scheme is no longer used. Smart contract and wallets will be required to migrate to the new scheme to keep their functionalities. This phase is expected to be the most impactful as after this irreversible step, all users will be required to use the new scheme, and the legacy scheme will no longer be supported. Previous transaction and smart contracts using ECDSA will still be available on the blockchain in a read-only mode.
+\end{itemize}

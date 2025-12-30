@@ -1,0 +1,68 @@
+\subsubsection{General Concept}
+ML-DSA\cite{Ducas2018} is a lattice-based digital signature scheme, a member of the CRYSTALS-DILITHIUM family, which was selected as a finalist in the NIST post-quantum cryptography standardization process. It is designed to be secure against quantum attacks and is based on the hardness of the Module Learning with Errors (MLWE) and Module Short integer solution (MSIS) problems, both of which are believed to be hard even for quantum computers.
+
+\subsubsection{Mathematical Foundations}
+\begin{enumerate}
+    \item \textbf{Module Lattices} \cite{peikert2016lattice}\\ A module lattice is a generalization of lattices over integer to modules over rings, increasing representation and computation efficiency.\\Let a ring \[R_{q} = \mathbb{Z}_{q} [x]/(x^n +1)\](a ring of degree-$n$ (usually, $n = 256$) polynomials with coefficients modulo $q$) Where $q$ is a prime number and $n$ is a power of 2. The module lattice is defined as $R^k$ where $k$ is the dimension of the lattice. The elements of the module lattice are polynomials with coefficients in $\mathbb{Z}_{q}$, and the operations are performed modulo $q$.\footnote{NTRU and modular lattices rely the same underlying structure, i.e. the polynomial ring $R_q$. The difference lying in the way the lattices are constructed over the ring.}\\
+    \item \textbf{Hardness Assumptions} \cite{peikert2016lattice}\\ML-DSA relies on the hardnes of Lattice problems generalized to module lattices. The two main problems are:
+    \begin{itemize}
+        \item \textbf{Module Learning with Errors (MLWE)}\\Given $A \in R_{k}^{l\times k}$ and $t = A \cdot s +e$ it is computationally hard to differentiate $t$ from random when $s$ and $e$ are small-norm secrets and errors respectively.\\
+        \item \textbf{Module Short Integer Solution (MSIS)}\\Given a random matrix $A \in R_{q}^{l \times k}$ (a matrix of $k \times l$ elements, each a polynomial in $R_q$ ) it is hard to find a small $z$ such that $A \cdot z = 0 \text{ mod } q$\\
+    \end{itemize} 
+\end{enumerate}
+%--------------------------------------------------------------------
+\subsubsection{Scheme Description}
+The Scheme involves some paramters that are chosen based on the desired security level.\cite{dilithium-spec-2021} The parameters are:\begin{itemize}
+    \item $k$: \textit{impacts public key length}
+    \item $l$: \textit{impacts signature length}
+    \item $q$: \textit{a prime number, chosen based on mathematical constraints}
+\end{itemize}
+
+\begin{algorithm*}[htp]
+    \caption{\textbf{ML-DSA Key Generation}}
+    \begin{algorithmic}
+        \Require $\mathbf{k, l, q}$ $\rhd$ \textit{Security-dependent parameters, chosen based on the desired security level}
+        \State 1. Sample $A \in R_{q}^{l \times k}$ (pseudo-random sampling using a seed, to only store the seed rather than the martix)
+        \State 2. Sample two short vectors of polynomials $s_1 \in R^{l}_{q}$ and $s_2 \in R^{k}_{q}$
+        \State 3. Compute $t = A \cdot s_1 + s_2 \in R^{k}_{q}$
+        \State \[\text{\textbf{Public Key: }} \mathbf{(A,t)} \text{\textbf{, Secret Key: }}\mathbf{(s_1, s_2)}\]
+    \end{algorithmic}
+\end{algorithm*}
+%%----
+\begin{algorithm*}[htp]
+    \caption{\textbf{ML-DSA Signing}}
+    \begin{algorithmic}
+        \Require $\mathbf{m}$ $\rhd$ \textit{The message to sign}, $\mathbf{(s_1, s_2)}$ $\rhd$ \textit{The secret key}, $\mathbf{(A, t)}$ $\rhd$ \textit{The public key}, $\mathbf{H}$ $\rhd$ \textit{A hash function, usually SHAKE-256}
+        \State 1. Sample a short vector of polynomials $y \in R^{l}_{q}$
+        \State 2. Compute $w = A \cdot y$ and split $w$ into $w_1$ (high part) and $w_2$ (low part) such that $w = w_1 + w_2$
+        \State 2.5 Compute $\mu = H(pk || m)$ with $pk$ being the compressed public key.
+        \State 3. Hash the message with $w_1$ : $c = H(w_1, \mu, m)$
+        \State 4. Compute $z = y + c \cdot s_1$
+        \State If $z$ or $c\cdot s_2$ are not short enough (i.e. their norm is too large), the signature is rejected and $y$ is resampled.
+        \State \[\text{\textbf{Signature: }}\mathbf{(\mu, z, c)}\]
+    \end{algorithmic}
+\end{algorithm*} 
+
+The signature consists of three parts: $\mu$, $z$, and $c$. The message is hashed with the public key and the high part of $w$ to produce a challenge $c$. The secret key is used to compute  $z$ by adding the challenge multiplied by the secret key to the short vector $y$. The verifier will then use the public key $z$ and $\mu$ to compute a response $c'$ and compare it with the original challenge $c$. If they match, the signature is valid.\\
+
+\newpage
+%%----
+\begin{algorithm*}[htp]
+    \caption{\textbf{ML-DSA Signature Verification}}
+    \begin{algorithmic}
+    \Require $\mathbf{(\mu, z, c)}$ $\rhd$ \textit{The signature to verify}, $\mathbf{(A, t)}$ $\rhd$ \textit{The public key}, $\mathbf{H}$ $\rhd$ \textit{A hash function, usually SHAKE-256, naturally the same as the one used in signing}
+    \State 1. Compute $w' = A \cdot z - c \cdot t$ (An approximation of $w = A \cdot y$)
+    \State 2. Compute $w'_1$ and $w'_2$ from $w'$
+    \State 3. Hash $c'$ with $w'_1$ : $c' = H(w'_1, \mu, m)$
+    \State \[\text{\textbf{If }}\mathbf{c = c'} \text{\textbf{and norms are within bounds Signature is verified.}}\]
+    \end{algorithmic}
+\end{algorithm*}
+
+The verifier, needing $w$ to recompute $c'$ a compare it with the received $c$, but not having access to $y$, uses the public key $(A, t)$ to approximate $w$ by computing $w' = A \cdot z - c \cdot t$. The signature is valid if the recomputed $c'$ matches the original $c$ and the norms of $z$ and $c\cdot s_2$ are within bounds.\\
+
+%--------------------------------------------------------------------
+\subsubsection{Security and integrability with Ethereum}
+
+This scheme offers a strong post-quantum security, relying on the hardness of the MLWE and MSIS problems\cite{Ducas2018} \cite{regev2005}. The security level can be adjusted by changing the parameters $k$, $l$, and $q$, also affecting the size of the public key and signature\cite{dilithium-spec-2021}. The scheme is designed to be efficient, with fast signing and verification times, making it suitable for integration into Ethereum.Its practical integrability into the Ethereum 2.0 blockchain, is promising despite its relatively large key and signature sizes, for instance, in Dilithium II, public keys are $\sim$ 1.3 KB and signatures $\sim$2.7 KB, which significantly exceeds the current ECDSA footprint ($\sim$64 bytes each), however ML-DSA remains a viable candidate for secure transaction validation in a post-quantum Ethereum environnement.\\
+
+The possible challenges of integrating ML-DSA in Ethereum, are similar to those of FALCON, as both schemes are based on lattice structures, and the main challenges being side-channel attacks, as well as the need to adapt EVMs to support Lattice-based operations, which may require significant changes to the Ethereum protocol and smart contract execution environment.\\

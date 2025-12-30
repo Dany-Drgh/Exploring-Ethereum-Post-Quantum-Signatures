@@ -1,0 +1,53 @@
+% Introduction to digital signatures and then ECDSA
+In order to provide a from of authentication and ensure integrity in communications, digital signatures are used. These mechanisms relying on asymmetric cryptography also allow for non-repudiation, meaning that the sender cannot deny having sent the message. Digital signatures are based on public key cryptography, where a pair of keys (public and private) is generated. The private key is used to sign the message, while the public key is used to verify the signature. The security of digital signatures relies on the difficulty of certain mathematical problems, such as factoring large numbers or solving discrete logarithms.
+
+Some of the most widely used algorithms include RSA, based on the difficulty of factoring large integers, and DSA, which relies on the discrete logarithm problem. And their applications reach from secure emails to blockchain technology, where they are used to verify transactions, ensure the integrity of the data stored on the blockchain and authenticate users.
+
+
+\subsubsection{Digital Signature Algorithm (DSA)}
+DSA \cite{nist_dsa} is a widely used digital signature algorithm that was proposed by the National Institute of Standards and Technology (NIST) in 1991. It is based on the discrete logarithm problem and is designed to provide a secure method for generating and verifying digital signatures. DSA is commonly used in various applications, including secure email, code signing, and digital certificates.
+The signature generation process involves the following steps:
+\begin{enumerate}
+    \item \textbf{Key Generation:} A pair of keys (private and public) is generated. The private key is a randomly chosen integer, while the public key is derived from the private key using modular exponentiation.
+    \item \textbf{Hashing:} The message to be signed is hashed using a cryptographic hash function, such as SHA-256. The hash value is a fixed-size representation of the message.
+    \item \textbf{Random Number Generation:} A random number (k) is generated for each signature. This number must be unique and unpredictable to ensure security.
+    \item \textbf{Signature Generation:} The signature is created using the private key, the hash of the message, and the random number.
+    \item \textbf{Signature Verification:} The recipient uses the public key to verify the signature by checking if it matches the hash of the message.
+\end{enumerate}
+This algorithm is however not without limitations, as it requires large key sizes to ensure security, and the random number $(k)$ must be unique for each signature to prevent attacks. Additionally, DSA is not suitable for signing small messages, as it requires a larger hash size than other algorithms like RSA.
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/DSA.png}
+    \caption{Digital Signature Algorithm (DSA) process}
+    \label{fig:dsa}    
+\end{figure}
+
+
+\subsubsection{ECDSA}
+To mitigate the limitations posed by DSA, ECDSA\cite{ecdsa2001} was introduced as an alternative. ECDSA is based on elliptic curve cryptography (ECC)\cite{ECC_1}, \cite{ECC_2}, which provides a level of security that is at least equivalent with smaller key sizes compared to traditional DSA, by using the mathematical properties of elliptic curves. The general steps for signature generation and verification are similar to DSA, but with the following differences:
+\begin{enumerate}
+    \item\textbf{Key Generation:} The private key is a randomly chosen integer, and the public key is derived from the private key using elliptic curve point multiplication.
+    \item \textbf{Signature Generation:} The message is hashed, and a random number $(k)$ is generated. The signature is created using the private key, the hash of the message, and the random number, but with elliptic curve operations.
+    \item \textbf{Signature Verification:} The recipient uses the public key to verify the signature by checking if it matches the hash of the message using elliptic curve operations.
+\end{enumerate}
+
+\begin{figure}[htp]
+    \centering
+    \begin{tabular}{c|c|c}
+        \textbf{Property} & \textbf{DSA} & \textbf{ECDSA} \\
+        \hline
+        Underlying problem & Discrete Logarithm Problem & Elliptic Curve Discrete Logarithm Problem \\
+        \hline
+        Key Size & 2048 bits & 512 bits \\
+        \hline
+        Signature Size & 320 bits & 512 bits \\
+        \hline
+        Performance & Slower than ECDSA, especially in verification & Faster in Key generation, signing and verification \\
+        \hline
+        Security &\multicolumn{2}{c}{Vulnerable to Shor's algorithm} \\
+        
+    \end{tabular}
+    \caption{Comparison of DSA and ECDSA}
+\end{figure}
+
+Thanks to its improved security and efficiency, ECDSA has become the standard for digital signatures in many applications, including Ethereum. However, ECDSA is also vulnerable to quantum attacks, as Shor's algorithm can efficiently solve the underlying mathematical problems, making it necessary to explore post-quantum alternatives.
